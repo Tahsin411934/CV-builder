@@ -39,6 +39,8 @@
 
 <script>
 import axios from 'axios';
+import Toastify from 'toastify-js';
+import 'toastify-js/src/toastify.css'; // Import the CSS for Toastify
 
 export default {
   data() {
@@ -63,11 +65,17 @@ export default {
         localStorage.setItem('token', response.data.token);
         localStorage.setItem('user', JSON.stringify(response.data.user));
 
-        // Handle success response
-        console.log('Login successful', response.data);
-        alert('Login successful!');
-        // Redirect or do something after successful login
-        this.$router.push('/dashboard'); // Example redirect to dashboard
+        // Show Toastify success message
+        Toastify({
+          text: "Login successful!",
+          duration: 3000,  // Show for 3 seconds
+          gravity: "top",  // Position top or bottom
+          position: "right", // Position left or right
+          backgroundColor: "green",
+        }).showToast();
+
+        // Redirect after successful login
+        this.$router.push('/dashboard');
       } catch (error) {
         // Handle error response
         if (error.response && error.response.status === 422) {
@@ -75,6 +83,15 @@ export default {
         } else {
           alert('Something went wrong! Please try again.');
         }
+
+        // Show Toastify error message
+        Toastify({
+          text: "Login failed! Please check your credentials.",
+          duration: 3000,  // Show for 3 seconds
+          gravity: "top",  // Position top or bottom
+          position: "right", // Position left or right
+          backgroundColor: "red",
+        }).showToast();
       }
     }
   }

@@ -55,7 +55,8 @@
 
 <script>
 import axios from "axios";
-
+import Toastify from 'toastify-js';
+import 'toastify-js/src/toastify.css'; // Import the CSS for Toastify
 export default {
   name: "Navbar",
   methods: {
@@ -76,7 +77,13 @@ export default {
         localStorage.removeItem("token");
 
         // Show a success alert
-        alert("You have been logged out successfully!");
+         Toastify({
+          text: "Logout successful!",
+          duration: 3000,  // Show for 3 seconds
+          gravity: "top",  // Position top or bottom
+          position: "right", // Position left or right
+          backgroundColor: "green",
+        }).showToast();
 
         // Redirect user to the login page
         this.$router.push("/login");
