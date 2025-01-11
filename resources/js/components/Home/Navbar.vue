@@ -15,7 +15,7 @@
           Home
         </router-link>
         <router-link
-          to="/services"
+          to="/heading"
           class="text-dark text-decoration-none mx-3 fw-medium hover-link"
         >
           Services
@@ -32,22 +32,23 @@
         >
           Price
         </router-link>
-        <router-link
-          to="/register"
-          class="text-dark text-decoration-none mx-3 fw-medium hover-link"
-        >
-          Sign Up
-        </router-link>
-        <router-link
-          to="/login"
-          class="text-dark text-decoration-none mx-3 fw-medium hover-link"
-        >
-          Sign In
-        </router-link>
 
-        <button @click="logout" class="btn btn-danger btn-sm ms-3">
-          Logout
-        </button>
+        <!-- Conditional Render: Show Create Account button or Logout button -->
+        <div v-if="!isLoggedIn">
+          <button class="btn btn-primary btn-sm mx-3" @click="toggleDropdown">
+            Create Account
+          </button>
+          <!-- Dropdown for Register and Login -->
+          <div v-if="showDropdown" class="dropdown-menu show">
+            <router-link to="/register" class="dropdown-item">Register</router-link>
+            <router-link to="/login" class="dropdown-item">Login</router-link>
+          </div>
+        </div>
+        <div v-else>
+          <button @click="logout" class="btn btn-info text-white btn ms-3">
+            Logout
+          </button>
+        </div>
       </nav>
     </div>
   </header>
@@ -57,9 +58,23 @@
 import axios from "axios";
 import Toastify from 'toastify-js';
 import 'toastify-js/src/toastify.css'; // Import the CSS for Toastify
+
 export default {
   name: "Navbar",
+  data() {
+    return {
+      showDropdown: false,
+      isLoggedIn: false, // Track login status
+    };
+  },
   methods: {
+    // Check if user is logged in based on token
+    checkLoginStatus() {
+      this.isLoggedIn = !!localStorage.getItem("token");
+    },
+    toggleDropdown() {
+      this.showDropdown = !this.showDropdown;
+    },
     async logout() {
       try {
         // Call the logout API
@@ -77,7 +92,7 @@ export default {
         localStorage.removeItem("token");
 
         // Show a success alert
-         Toastify({
+        Toastify({
           text: "Logout successful!",
           duration: 3000,  // Show for 3 seconds
           gravity: "top",  // Position top or bottom
@@ -87,11 +102,25 @@ export default {
 
         // Redirect user to the login page
         this.$router.push("/login");
+
+        // Update login status
+        this.checkLoginStatus();
       } catch (error) {
         // Show an alert if logout fails
         alert("Logout failed! Please try again.");
         console.error("Logout failed:", error.response?.data?.message || error.message);
       }
+    },
+  },
+  mounted() {
+    // Check login status on page load
+    this.checkLoginStatus();
+  },
+  watch: {
+    // Watch for changes in localStorage
+    "$route"(to, from) {
+      // Whenever the route changes, check if the token exists
+      this.checkLoginStatus();
     },
   },
 };
@@ -102,5 +131,11 @@ export default {
   color: #0056b3; /* Bootstrap primary color for hover effect */
   text-decoration: underline; /* Optional hover underline */
   transition: color 0.3s ease;
+}
+
+.dropdown-menu.show {
+  display: block;
+  position: absolute;
+  right: 0;
 }
 </style>

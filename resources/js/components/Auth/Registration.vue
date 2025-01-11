@@ -1,5 +1,5 @@
 <template>
-  <div class="container-sm mx-auto">
+  <div class="container-sm mx-auto w-50 shadow-lg p-5 mt-2">
     <h2 class="text-center mb-4">Create an Account</h2>
 
     <!-- Registration Form -->
@@ -107,5 +107,5 @@ export default {
 </script>
 
 <style scoped>
-/* No custom styles required since Bootstrap is handling the layout */
+
 </style>

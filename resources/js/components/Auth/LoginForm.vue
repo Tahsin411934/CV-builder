@@ -1,5 +1,5 @@
 <template>
-  <div class="container-sm mx-auto">
+  <div class="container-sm mx-auto w-50 shadow-lg p-5 mt-5">
     <h2 class="text-center mb-4">Login</h2>
 
     <!-- Login Form -->
@@ -75,7 +75,7 @@ export default {
         }).showToast();
 
         // Redirect after successful login
-        this.$router.push('/dashboard');
+        this.$router.push('/resume');
       } catch (error) {
         // Handle error response
         if (error.response && error.response.status === 422) {
