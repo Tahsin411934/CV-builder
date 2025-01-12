@@ -10,32 +10,32 @@
       <nav class="d-flex align-items-center">
         <router-link
           to="/"
-          class="text-dark text-decoration-none mx-3 fw-medium hover-link"
+          class=" fs-5 text-custom  text-decoration-none mx-3 fw-medium hover-link"
         >
           Home
         </router-link>
         <router-link
           to="/heading"
-          class="text-dark text-decoration-none mx-3 fw-medium hover-link"
+          class="text-dark text-decoration-none mx-3 fw-medium hover-link fs-5 text-custom"
         >
           Services
         </router-link>
         <router-link
           to="/work"
-          class="text-dark text-decoration-none mx-3 fw-medium hover-link"
+          class="text-dark text-decoration-none mx-3 fw-medium hover-link fs-5 text-custom"
         >
           Work
         </router-link>
         <router-link
           to="/price"
-          class="text-dark text-decoration-none mx-3 fw-medium hover-link"
+          class="text-dark text-decoration-none mx-3 fw-medium hover-link fs-5 text-custom"
         >
           Price
         </router-link>
 
         <!-- Conditional Render: Show Create Account button or Logout button -->
         <div v-if="!isLoggedIn">
-          <button class="btn btn-primary btn-sm mx-3" @click="toggleDropdown">
+          <button class="btn bg-custom bg-hover text-white mx-3" @click="toggleDropdown">
             Create Account
           </button>
           <!-- Dropdown for Register and Login -->
@@ -101,7 +101,7 @@ export default {
         }).showToast();
 
         // Redirect user to the login page
-        this.$router.push("/login");
+        this.$router.push("/");
 
         // Update login status
         this.checkLoginStatus();
@@ -138,4 +138,15 @@ export default {
   position: absolute;
   right: 0;
 }
+.text-custom {
+      color: #050748; 
+    }
+
+.bg-custom{
+  background: #050748;
+  
+}
+ .bg-hover:hover {
+    background-color: #0f17e9 !important;
+  }
 </style>

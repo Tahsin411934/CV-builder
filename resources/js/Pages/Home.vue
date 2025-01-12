@@ -1,13 +1,17 @@
 <template>
   <div>
-    <h1 class=" text-center "> Hello this is Home Page</h1>
+    <Banner />
   </div>
 </template>
 
 <script>
+import Banner from '../components/Home/Banner.vue';
 export default {
+  components: { Banner },
   name: "Home",
 };
 </script>
 
-<style scoped></style>
+<style scoped>
+
+</style>

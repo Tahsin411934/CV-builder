@@ -45,7 +45,7 @@ const routes = [
             {
                 path: "/experience",
                 name: "Test",
-                component: () => import("../components/AddTest.vue"), // Lazy-loaded
+                component: () => import("../pages/Resume/ExperienceForm.vue"), // Lazy-loaded
             },
         ],
     },
