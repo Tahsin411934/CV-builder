@@ -28,6 +28,11 @@ const routes = [
         component: () => import("../Pages/Resume/Resume.vue"), // Lazy-loaded
         children: [
             {
+                path: "/resume/overview",
+                name: "Overview",
+                component: () => import("../Pages/Resume/Overview.vue"), // Lazy-loaded
+            },
+            {
                 path: "/heading",
                 name: "Heading",
                 component: () => import("../Pages/Resume/Heading.vue"), // Lazy-loaded

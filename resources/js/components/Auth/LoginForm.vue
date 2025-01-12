@@ -75,7 +75,7 @@ export default {
         }).showToast();
 
         // Redirect after successful login
-        this.$router.push('/resume');
+        this.$router.push('/resume/overview');
       } catch (error) {
         // Handle error response
         if (error.response && error.response.status === 422) {

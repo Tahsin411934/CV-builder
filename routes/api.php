@@ -5,6 +5,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Auth\AuthController;
 use App\Http\Controllers\HeadingController;
 use App\Http\Controllers\TestController;
+use App\Http\Controllers\EducationController;
 // Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 //     return $request->user();
 // });
@@ -24,3 +25,10 @@ Route::put('/headings/{email}', [HeadingController::class, 'update']); // Update
 
 Route::post('/test', [TestController::class, 'store']);
 Route::get('/headings/{email}', [TestController::class, 'findDataByEmail']);
+
+Route::prefix('educations')->group(function () {
+  Route::post('/store', [EducationController::class, 'store']); // Store multiple records
+  Route::get('/user/{user_mail}', [EducationController::class, 'getByUserMail']); // Get records by user_mail
+  Route::put('/update/{id}', [EducationController::class, 'update']); // Update a record
+  Route::delete('/delete/{id}', [EducationController::class, 'destroy']); // Delete a record
+});

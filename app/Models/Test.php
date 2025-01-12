@@ -9,7 +9,7 @@ class Test extends Model
 {
     use HasFactory;
 
-    protected $table = 'test'; // Specify the table name
+    protected $table = 'test'; 
 
     protected $fillable = ['name', 'email', 'city','phone','country','profession','postal_code','image'];
 }

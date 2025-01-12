@@ -1,7 +1,63 @@
 <template>
   <div class="w-full mx-auto mt-10 p-5 rounded">
     <form @submit.prevent="submitForm" enctype="multipart/form-data">
-      <!-- First row with two columns -->
+      <!-- Row with two columns -->
+      <div class="row mb-4">
+        <!-- Left column for image preview and file upload -->
+        <div class="col-md-2 d-flex flex-column">
+          <!-- Show default image or preview -->
+          <div v-if="!imagePreview && form.image">
+            <img
+              :src="
+                form.image
+                  ? `http://127.0.0.1:8000/storage/${form.image}`
+                  : '/notfound.jpg'
+              "
+              style="width: 150px; height: 120px"
+              alt="User Image"
+              class="img-fluid border"
+            />
+          </div>
+
+          <!-- Show image preview if available -->
+          <div v-if="imagePreview">
+            <img
+              :src="imagePreview"
+              alt="Image Preview"
+              style="width: 150px; height: 120px"
+              class="img-fluid border"
+            />
+          </div>
+
+          <!-- Show a border if no image or preview is set -->
+          <div
+            v-if="!form.image && !imagePreview"
+            class="img-fluid border"
+            style="width: 150px; height: 120px"
+          >
+            <img src="/notfound.jpg" alt="">
+          </div>
+
+          <!-- File input for uploading the image -->
+          <input
+            type="file"
+            id="image"
+            class="mt-2 border-none"
+            @change="handleFileUpload"
+            ref="fileInput"
+          />
+        </div>
+
+        <!-- Right column for the info text -->
+        <div class="col-md-10 d-flex align-items-center justify-content-center">
+          <div class="text-center">
+            <h2>Give Your Info For Creating Free CV</h2>
+            <p>Fill in the details below to proceed with your CV creation.</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Other form fields -->
       <div class="row mb-4">
         <div class="col-md-6">
           <label for="name" class="form-label">Name</label>
@@ -26,7 +82,6 @@
         </div>
       </div>
 
-      <!-- Second row with two columns -->
       <div class="row mb-4">
         <div class="col-md-6">
           <label for="city" class="form-label">City</label>
@@ -50,7 +105,6 @@
         </div>
       </div>
 
-      <!-- Third row with two columns -->
       <div class="row mb-4">
         <div class="col-md-6">
           <label for="country" class="form-label">Country</label>
@@ -74,7 +128,6 @@
         </div>
       </div>
 
-      <!-- Fourth row with one column for postal code -->
       <div class="mb-4">
         <label for="postal_code" class="form-label">Postal Code</label>
         <input
@@ -86,33 +139,16 @@
         />
       </div>
 
-      <!-- Image upload row -->
-      <div class="mb-4">
-        <label for="image" class="form-label">Upload Image</label>
-        <input
-          type="file"
-          id="image"
-          class="form-control"
-          @change="handleFileUpload"
-          ref="fileInput"
-        />
-        
-        <!-- Image Preview -->
-        <div v-if="imagePreview" class="mt-3 ">
-          <img :src="imagePreview" width="100" alt="Image Preview" class="img-fluid" />
-        </div>
-      </div>
-
       <!-- Submit button -->
       <div class="row mb-4">
         <div class="col-12 d-flex justify-content-end">
-           <router-link
-          to="/resume"
-          class="text-dark bg-info btn text-decoration-none mx-3 fw-medium hover-link"
-        >
-          Previous
-        </router-link>
-          <button type="submit" class="btn btn-primary">Next</button>
+          <router-link
+            to="/resume"
+            class="text-dark border border-blue-950 btn text-decoration-none mx-3 fw-medium hover-link px-4 fs-4 rounded-5"
+          >
+            Previous
+          </router-link>
+          <button type="submit" class="btn btn-warning px-4 fs-4 rounded-5">Next</button>
         </div>
       </div>
     </form>
@@ -167,6 +203,7 @@ export default {
             country: data.country || "",
             profession: data.profession || "",
             postal_code: data.postal_code || "",
+            image: data.image || "",
           };
         } catch (error) {
           // Fallback if data is not fetched
@@ -259,5 +296,8 @@ export default {
 }
 .bg-danger {
   background-color: #dc3545 !important;
+}
+.border-blue-950 {
+  border: 1px solid #1e3a8a; /* Replace with your desired shade of blue */
 }
 </style>

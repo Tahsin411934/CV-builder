@@ -1,11 +1,10 @@
 <template>
-  <div class="row">
+  <div class="row justify-content-center align-align-items-center">
     <div class="col-3">
       <timeline />
     </div>
     <div class="col-9">
-      
-<router-view></router-view>
+      <router-view></router-view>
     </div>
   </div>
 </template>
