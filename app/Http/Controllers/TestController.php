@@ -19,7 +19,7 @@ class TestController extends Controller
             'country' => 'required|string|max:255',
             'profession' => 'required|string|max:255',
             'postal_code' => 'required|string',
-            'image' => 'nullable|image|mimes:jpg,jpeg,png,gif|max:2048',
+            'image' => 'nullable',
         ]);
 
         // Check if the email already exists in the database

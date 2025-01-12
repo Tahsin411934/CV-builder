@@ -23,6 +23,11 @@ const routes = [
         component: () => import("../components/Auth/LoginForm.vue"), // Lazy-loaded
     },
     {
+        path: "/overview",
+        name: "OverviewR",
+        component: () => import("../Pages/Overview.vue"), // Lazy-loaded
+    },
+    {
         path: "/resume",
         name: "Resume",
         component: () => import("../Pages/Resume/Resume.vue"), // Lazy-loaded
@@ -31,11 +36,13 @@ const routes = [
                 path: "/resume/overview",
                 name: "Overview",
                 component: () => import("../Pages/Resume/Overview.vue"), // Lazy-loaded
+                meta: { requiresAuth: true },
             },
             {
                 path: "/heading",
                 name: "Heading",
                 component: () => import("../Pages/Resume/Heading.vue"), // Lazy-loaded
+                meta: { requiresAuth: true },
             },
             {
                 path: "/education",

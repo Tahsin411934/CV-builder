@@ -1,6 +1,6 @@
 <template>
-  <div class="container-sm mx-auto w-50 shadow-lg p-5 mt-5">
-    <h2 class="text-center mb-4">Login</h2>
+  <div class="container-sm mx-auto  shadow-lg p-5 mt-5" style="width: 40%;">
+    <h2 class="text-center mb-4 text-custom ">Login to your Account</h2>
 
     <!-- Login Form -->
     <form @submit.prevent="submitForm">
@@ -32,8 +32,13 @@
         <div v-if="errors.password" class="invalid-feedback">{{ errors.password }}</div>
       </div>
 
-      <button type="submit" class="btn btn-primary w-100">Login</button>
+      <button type="submit" class="btn bg-custom text-white w-100">Login</button>
     </form>
+   <button class="btn mt-4  d-flex align-items-center justify-content-center bg-white border border-dark h-10 px-6 rounded shadow-lg transition duration-300">
+    <img src="/google.png" width="50" alt="Google logo" class="w-5 h-5 mr-2" />
+    <span class="text-dark">Login with Google</span>
+  </button>
+
   </div>
 </template>
 
@@ -75,7 +80,7 @@ export default {
         }).showToast();
 
         // Redirect after successful login
-        this.$router.push('/resume/overview');
+        this.$router.push('/overview');
       } catch (error) {
         // Handle error response
         if (error.response && error.response.status === 422) {
@@ -99,5 +104,11 @@ export default {
 </script>
 
 <style scoped>
-/* Bootstrap handles the layout, no additional custom styles needed */
+.bg-custom{
+  background: #050748; 
+}
+
+.text-custom {
+      color: #050748; 
+    }
 </style>

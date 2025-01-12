@@ -8,11 +8,7 @@
           <!-- Show default image or preview -->
           <div v-if="!imagePreview && form.image">
             <img
-              :src="
-                form.image
-                  ? `http://127.0.0.1:8000/storage/${form.image}`
-                  : '/notfound.jpg'
-              "
+              :src="form.image ? `http://127.0.0.1:8000/storage/${form.image}` : '/notfound.jpg'"
               style="width: 150px; height: 120px"
               alt="User Image"
               class="img-fluid border"
@@ -35,7 +31,7 @@
             class="img-fluid border"
             style="width: 150px; height: 120px"
           >
-            <img src="/notfound.jpg" alt="">
+            <img src="/notfound.jpg" alt="Not Found" />
           </div>
 
           <!-- File input for uploading the image -->
@@ -181,10 +177,9 @@ export default {
       },
       message: null,
       errorMessage: null,
-      imagePreview: null, // Data property to store image preview URL
+      imagePreview: null,
     };
   },
-
   methods: {
     async userEmail() {
       const user = JSON.parse(localStorage.getItem("user"));
@@ -197,7 +192,7 @@ export default {
           this.form = {
             ...this.form,
             name: data.name || "",
-            email: data.email || user.email, // Set the email if not found in the data
+            email: data.email || user.email,
             city: data.city || "",
             phone: data.phone || "",
             country: data.country || "",
@@ -206,8 +201,8 @@ export default {
             image: data.image || "",
           };
         } catch (error) {
-          // Fallback if data is not fetched
-          this.form.email = user.email; // Ensure email is always set
+          console.error(error);
+          this.form.email = user.email;
         }
       } else {
         console.error("No user data or email found.");
@@ -218,46 +213,52 @@ export default {
       const file = event.target.files[0];
       if (file) {
         this.form.image = file;
-
-        // Create a preview URL for the image
         const reader = new FileReader();
         reader.onload = (e) => {
-          this.imagePreview = e.target.result; // Set the imagePreview data property
+          this.imagePreview = e.target.result;
         };
         reader.readAsDataURL(file);
+      } else {
+        this.form.image = null;
+        this.imagePreview = null;
       }
     },
 
-    async submitForm() {
-      const formData = new FormData();
-      for (const key in this.form) {
-        if (this.form[key]) {
-          formData.append(key, this.form[key]);
-        }
-      }
+   async submitForm() {
+  const formData = new FormData();
 
-      try {
-        const response = await axios.post("http://127.0.0.1:8000/api/test", formData, {
-          headers: {
-            "Content-Type": "multipart/form-data",
-          },
-        });
-        this.message = response.data.message;
-        this.errorMessage = null;
-        this.resetForm();
-      } catch (error) {
-        console.error("Error submitting form:", error.response?.data || error);
-        if (error.response && error.response.data.errors) {
-          this.errorMessage = `Validation Error: ${JSON.stringify(
-            error.response.data.errors
-          )}`;
-        } else {
-          this.errorMessage = "Failed to submit the form. Please try again.";
-        }
-        this.message = null;
+  // Append fields to the formData, skipping the image if it's empty or null
+  for (const key in this.form) {
+    if (this.form[key] !== null && this.form[key] !== undefined) {
+      // Skip appending the image field if no image is selected
+      if (key === 'image' && (!this.form[key] || this.form[key] === '')) {
+        continue; // Skip appending the image if it's null or empty
       }
-      this.$router.push("/education");
-    },
+      formData.append(key, this.form[key]);
+    }
+  }
+
+  try {
+    const response = await axios.post("http://127.0.0.1:8000/api/test", formData, {
+      headers: {
+        "Content-Type": "multipart/form-data",
+      },
+    });
+    this.message = response.data.message;
+    this.errorMessage = null;
+    this.resetForm();
+    this.$router.push("/education");
+  } catch (error) {
+    console.error("Error submitting form:", error.response?.data || error);
+    this.errorMessage =
+      error.response?.data?.errors
+        ? `Validation Error: ${JSON.stringify(error.response.data.errors)}`
+        : "Failed to submit the form. Please try again.";
+    this.message = null;
+  }
+},
+
+
 
     resetForm() {
       this.form = {
@@ -270,8 +271,8 @@ export default {
         postal_code: "",
         image: null,
       };
-      this.imagePreview = null; // Reset image preview
-      this.$refs.fileInput.value = null; // Reset file input
+      this.imagePreview = null;
+      this.$refs.fileInput.value = null;
     },
   },
 
@@ -298,6 +299,6 @@ export default {
   background-color: #dc3545 !important;
 }
 .border-blue-950 {
-  border: 1px solid #1e3a8a; /* Replace with your desired shade of blue */
+  border: 1px solid #1e3a8a;
 }
 </style>

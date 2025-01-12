@@ -9,6 +9,19 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import 'bootstrap/dist/js/bootstrap.bundle.min.js';
 
 const app = createApp(App);
-
+const isAuthenticated = () => {
+    return !!localStorage.getItem('token'); // Replace with actual auth logic
+  };
+console.log(isAuthenticated());
+// Add navigation guard
+router.beforeEach((to, from, next) => {
+    if (to.meta.requiresAuth && !isAuthenticated()) {
+      
+      next({ name: 'Login' });
+    } else {
+      
+      next();
+    }
+  });
 app.use(router); // Register the router
 app.mount('#app');

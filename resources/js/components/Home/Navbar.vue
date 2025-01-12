@@ -45,7 +45,7 @@
           </div>
         </div>
         <div v-else>
-          <button @click="logout" class="btn btn-info text-white btn ms-3">
+          <button @click="logout" class="btn bg-custom bg-hover text-white btn ms-3">
             Logout
           </button>
         </div>
