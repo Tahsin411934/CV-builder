@@ -1,5 +1,5 @@
 <template>
-  <div class="py-3 h-screen" style="background-color: #07142B;">
+  <div class="py-3 min-vh-100" style="background-color: #07142B;">
     <div class="row justify-content-center">
       <div class="">
         <div class="timeline position-relative">
@@ -35,12 +35,13 @@ export default {
   data() {
     return {
       steps: [
-        { label: "Overview", route: "/resume/overview" },
+        { label: "Objective", route: "/resume/objective" },
         { label: "Heading", route: "/heading" },
         { label: "Education", route: "/education" },
         { label: "Experience", route: "/experience" },
         { label: "Skills", route: "/skills" },
         { label: "Summary", route: "/summary" },
+        { label: "Project", route: "/project" },
         { label: "Finalize", route: "/finalize" },
       ],
       hrHeight: 40, // Default height for the connecting hr

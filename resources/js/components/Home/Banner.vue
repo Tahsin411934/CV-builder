@@ -10,7 +10,7 @@
             We provide cutting-edge design solutions to bring your ideas to life. 
             From concept to creation, we're here to innovate and inspire.
           </p>
-          <router-link to="/resume/overview" class="btn w-50 bg-custom mt-4 px-4  text-white rounded-5 fs-5">Create Your CV</router-link>
+          <router-link to="/resume/objective" class="btn w-50 bg-custom mt-4 px-4  text-white rounded-5 fs-5">Create Your CV</router-link>
         </div>
       </div>
 

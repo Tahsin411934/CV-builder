@@ -1,6 +1,9 @@
 <template>
-  <div class="container mt-5">
-    <h3 class=" mb-4">Add Education Records</h3>
+  <div class="container m-2 card shadow-sm">
+    <div class="text-custom pt-3">
+      <h5 class="fw-bold">Step-3: Education</h5>
+      <p>Fill in the details below to proceed with your CV creation. Follow all the steps carefully.</p>
+    </div>
 
     <!-- Form for multiple education records -->
     <form @submit.prevent="submitForm">
@@ -9,9 +12,7 @@
         :key="index"
         class="mb-4 p-3 border rounded bg-light"
       >
-        <h4 class="text-primary mb-3">
-          {{ education.title || "New Record" }}
-        </h4>
+        <h4 class="text-primary mb-3">{{ education.title || "New Record" }}</h4>
 
         <!-- Row 1 -->
         <div class="row mb-3">
@@ -114,14 +115,17 @@
       </div>
 
       <div class="row mb-4">
-        <div class="col-12 d-flex justify-content-end">
+        <div class="col-12 d-flex justify-content-between">
           <router-link
             to="/heading"
-            class="text-dark border border-blue-950 btn text-decoration-none mx-3 fw-medium hover-link px-4 fs-4 rounded-5"
+            class="text-dark border border-dark btn text-decoration-none mx-3 fw-medium hover-link px-4 fs-4 rounded-5"
           >
             Previous
           </router-link>
-          <button type="submit" class="btn btn-warning px-4 fs-4 rounded-5">Next</button>
+          <button type="submit" class="btn btn-warning px-4 fs-4 rounded-5" :disabled="loading">
+            <span v-if="loading" class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+            <span v-if="!loading">Next</span>
+          </button>
         </div>
       </div>
     </form>
@@ -152,6 +156,7 @@ export default {
         },
       ],
       errorMessage: "",
+      loading: false,  // Add loading state
     };
   },
   methods: {
@@ -186,6 +191,7 @@ export default {
       }
     },
     async submitForm() {
+      this.loading = true;  // Start loading
       try {
         const plainData = this.educations.map((education) => ({ ...education }));
         console.log("Submitting data:", plainData);
@@ -199,13 +205,12 @@ export default {
         if (response.status === 201) {
           this.resetForm();
           this.$router.push("/experience");
-
-          
         }
       } catch (error) {
         this.errorMessage = error.response?.data?.message || "An error occurred!";
+      } finally {
+        this.loading = false;  // Stop loading after submission
       }
-      
     },
     async deleteEducation(id, index) {
       try {
@@ -285,5 +290,5 @@ export default {
 </script>
 
 <style scoped>
-/* Additional Bootstrap customization if needed */
+/* Add custom CSS for loading spinner if needed */
 </style>

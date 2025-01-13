@@ -1,6 +1,6 @@
 <template>
-  <div class="container mx-auto ">
-    <div class="row align-items-center ">
+  <div class="container mx-auto">
+    <div class="row align-items-center">
       <!-- Left Section -->
       <div class="col-md-6 rounded p-4">
         <div class="h-100 d-flex flex-column justify-content-center">
@@ -12,8 +12,9 @@
             We provide cutting-edge design solutions to bring your ideas to life. From
             concept to creation, we're here to innovate and inspire.
           </p>
-          <router-link to="/heading" class="btn btn-warning rounded-5 w-50 btn-lg">Get Started</router-link>
-          
+          <!-- Typewriter Effect -->
+          <div class=" fs-4 fw-bold text-custom" ref="typewriter"></div>
+          <router-link to="/heading" class="btn btn-warning rounded-5 w-50 btn-lg mt-4">Get Started</router-link>
         </div>
       </div>
 
@@ -26,13 +27,37 @@
 </template>
 
 <script>
+import Typewriter from 'typewriter-effect/dist/core';
+
 export default {
   name: "OverviewR",
+  mounted() {
+    // Initialize the typewriter effect
+    const typewriter = new Typewriter(this.$refs.typewriter, {
+      loop: true,
+      delay: 75,
+    });
+
+    typewriter
+      .typeString("Stand out with our unique templates.")
+      .pauseFor(1000)
+      .deleteAll()
+      .typeString("Your dream job is one step away.")
+      .pauseFor(1000)
+      .deleteAll()
+      .typeString("Join us and build your future.")
+      .pauseFor(1000)
+      .start();
+  },
 };
 </script>
 
 <style scoped>
 .bg-custom {
   background: #f9faff;
+}
+
+.text-custom {
+  color: #050748;
 }
 </style>

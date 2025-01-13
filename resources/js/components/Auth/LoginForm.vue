@@ -1,6 +1,6 @@
 <template>
-  <div class="container-sm mx-auto  shadow-lg p-5 mt-5" style="width: 40%;">
-    <h2 class="text-center mb-4 text-custom ">Login to your Account</h2>
+  <div class="container-sm mx-auto shadow-lg p-5 mt-5" style="width: 40%;">
+    <h2 class="text-center mb-4 text-custom">Login to your Account</h2>
 
     <!-- Login Form -->
     <form @submit.prevent="submitForm">
@@ -32,13 +32,24 @@
         <div v-if="errors.password" class="invalid-feedback">{{ errors.password }}</div>
       </div>
 
-      <button type="submit" class="btn bg-custom text-white w-100">Login</button>
+      <!-- Login Button with Spinner -->
+      <button 
+        type="submit" 
+        class="btn bg-custom text-white w-100" 
+        :disabled="loading"
+      >
+        <span v-if="loading" class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+        <span v-else>Login</span>
+      </button>
     </form>
-   <button class="btn mt-4  d-flex align-items-center justify-content-center bg-white border border-dark h-10 px-6 rounded shadow-lg transition duration-300">
-    <img src="/google.png" width="50" alt="Google logo" class="w-5 h-5 mr-2" />
-    <span class="text-dark">Login with Google</span>
-  </button>
 
+    <!-- Google Login -->
+    <button 
+      class="btn mt-4 w-100 d-flex align-items-center justify-content-center bg-white border border-dark h-10 px-6 rounded shadow-lg transition duration-300"
+    >
+      <img src="/google.png" width="50" alt="Google logo" class="w-5 h-5 mr-2" />
+      <span class="text-dark">Login with Google</span>
+    </button>
   </div>
 </template>
 
@@ -55,12 +66,13 @@ export default {
         password: ''
       },
       errors: {},
+      loading: false, // Manage the spinner state
     };
   },
   methods: {
     async submitForm() {
-      // Reset errors before sending the form
       this.errors = {};
+      this.loading = true; // Show spinner
 
       try {
         // Send login request to the Laravel API
@@ -73,9 +85,9 @@ export default {
         // Show Toastify success message
         Toastify({
           text: "Login successful!",
-          duration: 3000,  // Show for 3 seconds
-          gravity: "top",  // Position top or bottom
-          position: "right", // Position left or right
+          duration: 3000,
+          gravity: "top",
+          position: "right",
           backgroundColor: "green",
         }).showToast();
 
@@ -92,11 +104,13 @@ export default {
         // Show Toastify error message
         Toastify({
           text: "Login failed! Please check your credentials.",
-          duration: 3000,  // Show for 3 seconds
-          gravity: "top",  // Position top or bottom
-          position: "right", // Position left or right
+          duration: 3000,
+          gravity: "top",
+          position: "right",
           backgroundColor: "red",
         }).showToast();
+      } finally {
+        this.loading = false; // Hide spinner
       }
     }
   }
@@ -104,11 +118,16 @@ export default {
 </script>
 
 <style scoped>
-.bg-custom{
-  background: #050748; 
+.bg-custom {
+  background: #050748;
 }
 
 .text-custom {
-      color: #050748; 
-    }
+  color: #050748;
+}
+
+.spinner-border {
+  border-width: 2px;
+  border-color: white transparent white transparent;
+}
 </style>

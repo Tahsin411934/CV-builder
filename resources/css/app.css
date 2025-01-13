@@ -7,4 +7,15 @@
 .custom-text {
     color: #050748 !important;
   }
-  
+  .text-custom {
+    color: #050748;
+  }
+
+  .bg-custom{
+    background: #050748;
+    
+  }
+
+  .max-w-1260 {
+    max-width: 1460px;
+  }

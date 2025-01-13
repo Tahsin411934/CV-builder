@@ -7,6 +7,7 @@ use App\Http\Controllers\HeadingController;
 use App\Http\Controllers\TestController;
 use App\Http\Controllers\EducationController;
 use App\Http\Controllers\ExperienceController;
+use App\Http\Controllers\ObjectiveController;
 // Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 //     return $request->user();
 // });
@@ -38,3 +39,6 @@ Route::prefix('educations')->group(function () {
 
 Route::resource('experiences', ExperienceController::class);
 Route::get('/experience/{email}', [ExperienceController::class, 'getByEmail']);
+
+Route::resource('objectives', ObjectiveController::class);
+Route::get('/objective/{email}', [ObjectiveController::class, 'getByEmail']);

@@ -1,6 +1,11 @@
 <template>
-  <div class="container mt-5">
-    <h3 class="mb-4">Add Experience Records</h3>
+  <div class="container mt-2 card shadow-sm">
+    <div class="col-md-9 d-flex ">
+      <div class="text-custom pt-3 ">
+        <h5 class="fw-bold ">Step-4: Experience</h5>
+        <p>Fill in the details below to proceed with your CV creation. Follow all the steps carefully to build a professional CV tailored just for you</p>
+      </div>
+    </div>
 
     <!-- Form for multiple experience records -->
     <form @submit.prevent="submitForm">
@@ -50,26 +55,12 @@
           </div>
           <div class="col-md-6">
             <label for="end_date" class="form-label">End Date</label>
-            <input
-              v-model="experience.end_date"
-              type="date"
-              class="form-control"
-            />
+            <input v-model="experience.end_date" type="date" class="form-control" />
           </div>
         </div>
 
         <!-- Row 3 -->
         <div class="row mb-3">
-          <div class="col-md-6">
-            <label for="current_work" class="form-label">Currently Working</label>
-            <input
-              v-model="experience.current_work"
-              type="checkbox"
-              class="form-check-input"
-              :true-value="true"
-              :false-value="false"
-            />
-          </div>
           <div class="col-md-6">
             <label for="short_description" class="form-label">Short Description</label>
             <textarea
@@ -78,10 +69,21 @@
               placeholder="Enter short description of your job"
             ></textarea>
           </div>
+
+          <div class="col-md-6">
+            <label for="current_work" class="form-label">Currently Working: </label>
+            <input
+              v-model="experience.current_work"
+              type="checkbox"
+              class="form-check-input bg-custom border-4 border-primary mx-3 rounded-full w-8 h-8 transition-all duration-300 ease-in-out transform hover:scale-110 focus:ring-2 focus:ring-primary"
+              :true-value="true"
+              :false-value="false"
+            />
+          </div>
         </div>
 
         <!-- Row 4 (user email) -->
-        <div class="row mb-3">
+        <div class="row mb-3 d-none">
           <div class="col-md-6">
             <label for="user_email" class="form-label">User Email</label>
             <input
@@ -117,14 +119,17 @@
       </div>
 
       <div class="row mb-4">
-        <div class="col-12 d-flex justify-content-end">
+        <div class="col-12 d-flex justify-content-between">
           <router-link
             to="/education"
-            class="text-dark border border-blue-950 btn text-decoration-none mx-3 fw-medium hover-link px-4 fs-4 rounded-5"
+            class="text-dark border border-dark btn text-decoration-none mx-3 fw-medium hover-link px-4 fs-4 rounded-5"
           >
             Previous
           </router-link>
-          <button type="submit" class="btn btn-warning px-4 fs-4 rounded-5">Next</button>
+          <button type="submit" class="btn btn-warning px-4 fs-4 rounded-5" :disabled="loading">
+            <span v-if="loading" class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+            <span v-else>Next</span>
+          </button>
         </div>
       </div>
     </form>
@@ -155,6 +160,7 @@ export default {
         },
       ],
       errorMessage: "",
+      loading: false, // Added loading state
     };
   },
   methods: {
@@ -189,6 +195,7 @@ export default {
       }
     },
     async submitForm() {
+      this.loading = true; // Set loading to true when the form is submitted
       try {
         const plainData = this.experiences.map((experience) => ({
           ...experience,
@@ -207,6 +214,8 @@ export default {
         }
       } catch (error) {
         this.errorMessage = error.response?.data?.message || "An error occurred!";
+      } finally {
+        this.loading = false; // Set loading to false after submission is done
       }
     },
     async deleteExperience(id, index) {

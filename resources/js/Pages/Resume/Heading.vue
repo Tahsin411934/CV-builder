@@ -1,10 +1,17 @@
 <template>
-  <div class="w-full mx-auto mt-10 p-5 rounded">
+<div class="card shadow-sm m-2">
+  <div class="w-full mx-auto  py-3  rounded card-body">
     <form @submit.prevent="submitForm" enctype="multipart/form-data">
       <!-- Row with two columns -->
       <div class="row mb-4">
+        <div class="col-md-9 d-flex ">
+          <div class=" text-custom pt-3 ">
+            <h5 class="fw-bold ">Step-2:Heading</h5>
+            <p>Fill in the details below to proceed with your CV creation. Follow all the steps carefully to build a professional CV tailored just for you</p>
+          </div>
+        </div>
         <!-- Left column for image preview and file upload -->
-        <div class="col-md-2 d-flex flex-column">
+        <div class="col-md-3 d-flex flex-column">
           <!-- Show default image or preview -->
           <div v-if="!imagePreview && form.image">
             <img
@@ -45,12 +52,7 @@
         </div>
 
         <!-- Right column for the info text -->
-        <div class="col-md-10 d-flex align-items-center justify-content-center">
-          <div class="text-center">
-            <h2>Give Your Info For Creating Free CV</h2>
-            <p>Fill in the details below to proceed with your CV creation.</p>
-          </div>
-        </div>
+        
       </div>
 
       <!-- Other form fields -->
@@ -61,7 +63,7 @@
             v-model="form.name"
             type="text"
             id="name"
-            class="form-control"
+            class="form-control rounded-none "
             required
           />
         </div>
@@ -80,21 +82,21 @@
 
       <div class="row mb-4">
         <div class="col-md-6">
-          <label for="city" class="form-label">City</label>
-          <input
-            v-model="form.city"
-            type="text"
-            id="city"
-            class="form-control"
-            required
-          />
-        </div>
-        <div class="col-md-6">
           <label for="phone" class="form-label">Phone</label>
           <input
             v-model="form.phone"
             type="text"
             id="phone"
+            class="form-control"
+            required
+          />
+        </div>
+        <div class="col-md-6">
+          <label for="city" class="form-label">City</label>
+          <input
+            v-model="form.city"
+            type="text"
+            id="city"
             class="form-control"
             required
           />
@@ -113,7 +115,7 @@
           />
         </div>
         <div class="col-md-6">
-          <label for="profession" class="form-label">Profession</label>
+          <label for="profession" class="form-label">Designation/Profession</label>
           <input
             v-model="form.profession"
             type="text"
@@ -137,14 +139,17 @@
 
       <!-- Submit button -->
       <div class="row mb-4">
-        <div class="col-12 d-flex justify-content-end">
+        <div class="col-12 d-flex justify-content-between">
           <router-link
-            to="/resume"
-            class="text-dark border border-blue-950 btn text-decoration-none mx-3 fw-medium hover-link px-4 fs-4 rounded-5"
+            to="/resume/objective"
+            class="text-custom border border-dark btn text-decoration-none mx-3 fw-medium hover-link px-4 fs-4 rounded-5"
           >
             Previous
           </router-link>
-          <button type="submit" class="btn btn-warning px-4 fs-4 rounded-5">Next</button>
+          <button type="submit" class="btn btn-warning px-4 fs-4 rounded-5">
+            <span v-if="loading" class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+            <span v-else>Next</span>
+          </button>
         </div>
       </div>
     </form>
@@ -156,6 +161,7 @@
     <div v-if="errorMessage" class="mt-4 p-4 bg-danger text-white rounded">
       {{ errorMessage }}
     </div>
+  </div>
   </div>
 </template>
 
@@ -178,6 +184,7 @@ export default {
       message: null,
       errorMessage: null,
       imagePreview: null,
+      loading: false,  // Add loading state
     };
   },
   methods: {
@@ -189,6 +196,7 @@ export default {
             `http://127.0.0.1:8000/api/headings/${user.email}`
           );
           const data = response.data?.data || {};
+          console.log(data)
           this.form = {
             ...this.form,
             name: data.name || "",
@@ -224,41 +232,42 @@ export default {
       }
     },
 
-   async submitForm() {
-  const formData = new FormData();
+    async submitForm() {
+      this.loading = true;
+      const formData = new FormData();
 
-  // Append fields to the formData, skipping the image if it's empty or null
-  for (const key in this.form) {
-    if (this.form[key] !== null && this.form[key] !== undefined) {
-      // Skip appending the image field if no image is selected
-      if (key === 'image' && (!this.form[key] || this.form[key] === '')) {
-        continue; // Skip appending the image if it's null or empty
+      // Append fields to the formData, skipping the image if it's empty or null
+      for (const key in this.form) {
+        if (this.form[key] !== null && this.form[key] !== undefined) {
+          // Skip appending the image field if no image is selected
+          if (key === 'image' && (!this.form[key] || this.form[key] === '')) {
+            continue; // Skip appending the image if it's null or empty
+          }
+          formData.append(key, this.form[key]);
+        }
       }
-      formData.append(key, this.form[key]);
-    }
-  }
 
-  try {
-    const response = await axios.post("http://127.0.0.1:8000/api/test", formData, {
-      headers: {
-        "Content-Type": "multipart/form-data",
-      },
-    });
-    this.message = response.data.message;
-    this.errorMessage = null;
-    this.resetForm();
-    this.$router.push("/education");
-  } catch (error) {
-    console.error("Error submitting form:", error.response?.data || error);
-    this.errorMessage =
-      error.response?.data?.errors
-        ? `Validation Error: ${JSON.stringify(error.response.data.errors)}`
-        : "Failed to submit the form. Please try again.";
-    this.message = null;
-  }
-},
-
-
+      try {
+        const response = await axios.post("http://127.0.0.1:8000/api/test", formData, {
+          headers: {
+            "Content-Type": "multipart/form-data",
+          },
+        });
+        this.message = response.data.message;
+        this.errorMessage = null;
+        this.resetForm();
+        this.$router.push("/education");
+      } catch (error) {
+        console.error("Error submitting form:", error.response?.data || error);
+        this.errorMessage =
+          error.response?.data?.errors
+            ? `Validation Error: ${JSON.stringify(error.response.data.errors)}`
+            : "Failed to submit the form. Please try again.";
+        this.message = null;
+      } finally {
+        this.loading = false; // Hide spinner
+      }
+    },
 
     resetForm() {
       this.form = {
@@ -300,5 +309,8 @@ export default {
 }
 .border-blue-950 {
   border: 1px solid #1e3a8a;
+}
+.text-custom {
+  color: #050748;
 }
 </style>
