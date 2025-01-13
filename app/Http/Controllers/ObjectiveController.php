@@ -5,23 +5,22 @@ namespace App\Http\Controllers;
 use App\Models\Objective;
 use Illuminate\Http\Request;
 
-class ObjectiveController extends Controller
-{
+class ObjectiveController extends Controller {
     /**
-     * Display a listing of the resource.
-     */
-    public function index()
-    {
+    * Display a listing of the resource.
+    */
+
+    public function index() {
         $objectives = Objective::all();
-        return response()->json($objectives);
+        return response()->json( $objectives );
     }
 
     /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
-    {
-        // Typically used for returning a view (for web apps).
+    * Show the form for creating a new resource.
+    */
+
+    public function create() {
+        // Typically used for returning a view ( for web apps ).
         // Not needed for APIs unless you're returning a custom form structure.
     }
 
@@ -82,6 +81,6 @@ class ObjectiveController extends Controller
 
         $objective->delete();
 
-        return response()->json(['message' => 'Objective deleted successfully']);
+        return response()->json(['message' => 'Objective deleted successfully' ] );
     }
 }

@@ -14,7 +14,7 @@
           </p>
           <!-- Typewriter Effect -->
           <div class=" fs-4 fw-bold text-custom" ref="typewriter"></div>
-          <router-link to="/heading" class="btn btn-warning rounded-5 w-50 btn-lg mt-4">Get Started</router-link>
+          <router-link to="/resume/objective" class="btn btn-warning rounded-5 w-50 btn-lg mt-4">Get Started</router-link>
         </div>
       </div>
 

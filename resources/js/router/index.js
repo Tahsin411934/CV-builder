@@ -58,6 +58,17 @@ const routes = [
                 path: "/resume/objective",
                 name: "Objective",
                 component: () => import("../pages/Resume/ObjectiveForm.vue"), // Lazy-loaded
+                meta: { requiresAuth: true },
+            },
+            {
+                path: "/resume/skills",
+                name: "Skills",
+                component: () => import("../pages/Resume/Skills.vue"), // Lazy-loaded
+            },
+            {
+                path: "/resume/language-proficiency",
+                name: "language-proficiency",
+                component: () => import("../pages/Resume/LanguageProficiencyForm.vue"), // Lazy-loaded
             },
         ],
     },

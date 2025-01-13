@@ -210,7 +210,7 @@ export default {
 
         if (response.status === 201) {
           this.resetForm();
-          this.$router.push("/skills");
+          this.$router.push("/resume/skills");
         }
       } catch (error) {
         this.errorMessage = error.response?.data?.message || "An error occurred!";

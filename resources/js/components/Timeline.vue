@@ -1,5 +1,5 @@
 <template>
-  <div class="py-3 min-vh-100" style="background-color: #07142B;">
+  <div class="py-3 min-vh-100 " style="background-color: #07142B; ">
     <div class="row justify-content-center">
       <div class="">
         <div class="timeline position-relative">
@@ -19,7 +19,7 @@
                   :style="{ top: `${hrHeight}px` }"
                 />
               </div>
-              <div class="step-content">
+              <div class="step-content fs">
                 <h5>{{ step.label }}</h5>
               </div>
             </div>
@@ -39,7 +39,8 @@ export default {
         { label: "Heading", route: "/heading" },
         { label: "Education", route: "/education" },
         { label: "Experience", route: "/experience" },
-        { label: "Skills", route: "/skills" },
+        { label: "Skills", route: "/resume/skills" },
+        { label: "Language Proficiency", route: "/resume/language-proficiency" },
         { label: "Summary", route: "/summary" },
         { label: "Project", route: "/project" },
         { label: "Finalize", route: "/finalize" },
@@ -80,27 +81,30 @@ export default {
 /* General styles for the timeline */
 .timeline {
   position: relative;
-  padding: 20px;
+  padding: 10px;
 }
 
 .timeline-step {
   position: relative;
-  padding: 20px;
+  padding: 10px;
   cursor: pointer;
   background-color: transparent;
 }
 
 .timeline-step.active {
   background-color: #0d243f;
-  border-left: 4px solid #1e90ff;
+  
   border-radius: 8px;
 }
-
+.timeline-step.active .step-number {
+  background-color: red; /* Step number background turns red when active */
+  color: white; /* Make the number white for contrast */
+}
 .step-number {
-  background-color: #1e90ff;
-  color: white;
-  width: 40px;
-  height: 40px;
+  background-color: #E5E7EB;
+  color: #0d243f;
+  width: 30px;
+  height: 30px;
   border-radius: 50%;
   display: flex;
   align-items: center;
@@ -112,7 +116,7 @@ export default {
 
 .step-content h5 {
   margin: 0;
-  font-size: 18px;
+  font-size: 13px;
   color: white;
 }
 
@@ -121,9 +125,9 @@ export default {
   position: absolute;
   left: 50%;
   transform: translateX(-50%);
-  width: 2px;
+  width: 5px;
   height: 70px;
-  background-color: #1e90ff;
+  background-color: #E5E7EB;
   margin: 0;
   border: none;
 }

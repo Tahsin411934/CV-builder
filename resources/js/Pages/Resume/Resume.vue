@@ -4,7 +4,9 @@
       <timeline />
     </div>
     <div class="col-9">
-      <router-view></router-view>
+      <div style="width: 100%; margin:auto">
+        <router-view></router-view>
+      </div>
     </div>
   </div>
 </template>

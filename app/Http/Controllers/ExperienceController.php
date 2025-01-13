@@ -7,12 +7,7 @@ use Illuminate\Http\Request;
 
 class ExperienceController extends Controller
 {
-    // Fetch all experiences
-    public function index()
-    {
-        $experiences = Experience::all();
-        return response()->json($experiences);
-    }
+   
 
     // Store multiple experiences (with user_email)
     public function store(Request $request)

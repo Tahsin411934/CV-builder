@@ -8,6 +8,8 @@ use App\Http\Controllers\TestController;
 use App\Http\Controllers\EducationController;
 use App\Http\Controllers\ExperienceController;
 use App\Http\Controllers\ObjectiveController;
+use App\Http\Controllers\SkillController;
+use App\Http\Controllers\LanguageProficiencyController;
 // Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 //     return $request->user();
 // });
@@ -42,3 +44,9 @@ Route::get('/experience/{email}', [ExperienceController::class, 'getByEmail']);
 
 Route::resource('objectives', ObjectiveController::class);
 Route::get('/objective/{email}', [ObjectiveController::class, 'getByEmail']);
+
+Route::post('skills', [SkillController::class, 'store']);
+Route::get('/skills/{email}', [SkillController::class, 'getByEmail']);
+
+Route::resource('language-proficiency', LanguageProficiencyController::class);
+Route::get('/language-proficiencybyemail/{email}', [LanguageProficiencyController::class, 'getByEmail']);
