@@ -15,7 +15,7 @@
             From concept to creation, we're here to innovate and inspire.
           </p>
           
-          <router-link to="/overview" class="btn w-50 bg-custom mt-4 px-4 text-white rounded-5 fs-5">Create Your CV</router-link>
+          <router-link to="/overview" class="btn w-lg-50 w-75  bg-custom mt-4 px-4 text-white rounded-5 fs-5">Create Your CV</router-link>
         </div>
       </div>
 
@@ -44,7 +44,7 @@ export default {
     });
 
     typewriter
-      .typeString("Stand out with our unique templates.")
+      .typeString("Stand out with our unique Design.")
       .pauseFor(1000)
       .deleteAll()
       .typeString("Your dream job is one step away.")

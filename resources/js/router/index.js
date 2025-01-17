@@ -29,6 +29,18 @@ const routes = [
         meta: { requiresAuth: true },
     },
     {
+        path: "/services",
+        name: "services",
+        component: () => import("../components/Home/Services.vue"), // Lazy-loaded
+        meta: { requiresAuth: true },
+    },
+    {
+        path: "/profile",
+        name: "profile",
+        component: () => import("../components/UserProfile.vue"), // Lazy-loaded
+        meta: { requiresAuth: true },
+    },
+    {
         path: "/resume",
         name: "Resume",
         component: () => import("../Pages/Resume/Resume.vue"), // Lazy-loaded

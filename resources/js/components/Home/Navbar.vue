@@ -3,34 +3,43 @@
     <div class="container-sm mx-auto d-flex justify-content-between align-items-center py-3">
       <!-- Logo Section -->
       <div class="d-flex align-items-center">
-        <img src="logo.png" alt="Logo" class="img-fluid" style="height: 30px;" />
+        <span class="logo">
+          Freelancing <span>Hub</span>
+        </span>
       </div>
 
       <!-- Desktop Navigation Links -->
       <nav class="d-none d-md-flex align-items-center">
         <router-link
           to="/"
-          class="fs-5 text-custom text-decoration-none mx-3 fw-medium hover-link"
+          class="fs-6 text-custom text-decoration-none mx-3 fw-medium hover-link"
         >
           Home
         </router-link>
         <router-link
-          to="/heading"
-          class="text-dark text-decoration-none mx-3 fw-medium hover-link fs-5 text-custom"
+          to="/overview"
+          class="text-dark text-decoration-none mx-3 fw-medium hover-link fs-6 text-custom"
+        >
+          Free CV
+        </router-link>
+        <router-link
+          to="/"
+          class="fs-6 text-custom text-decoration-none mx-3 fw-medium hover-link"
+        >
+          Premium CV
+        </router-link>
+        <router-link
+          to="/services"
+          class="text-dark text-decoration-none mx-3 fw-medium hover-link fs-6 text-custom"
         >
           Services
         </router-link>
+
         <router-link
-          to="/work"
-          class="text-dark text-decoration-none mx-3 fw-medium hover-link fs-5 text-custom"
+          to="/contact"
+          class="text-dark text-decoration-none mx-3 fw-medium hover-link fs-6 text-custom"
         >
-          Work
-        </router-link>
-        <router-link
-          to="/price"
-          class="text-dark text-decoration-none mx-3 fw-medium hover-link fs-5 text-custom"
-        >
-          Price
+          Blog
         </router-link>
 
         <!-- Conditional Render: Show Create Account button or Logout button -->
@@ -45,9 +54,21 @@
           </div>
         </div>
         <div v-else>
-          <button @click="logout" class="btn bg-custom bg-hover text-white btn ms-3">
-            Logout
-          </button>
+          <!-- Profile Dropdown for Logged-in Users -->
+          <div class="dropdown d-inline-block" ref="profileDropdown">
+            <button
+              class="btn bg-custom bg-hover text-white ms-3"
+              @click="toggleProfileDropdown"
+            >
+              <i class="fas fa-user-circle"></i>
+            </button>
+            <div v-if="showProfileDropdown" class="dropdown-menu show">
+              <router-link to="/profile" class="dropdown-item">Profile</router-link>
+              <router-link to="/orders" class="dropdown-item">Orders</router-link>
+              <router-link to="/creation" class="dropdown-item">Creation</router-link>
+              <button @click="logout" class="dropdown-item">Logout</button>
+            </div>
+          </div>
         </div>
       </nav>
 
@@ -67,9 +88,9 @@
           </div>
           <div class="modal-body">
             <router-link to="/" class="d-block py-2 text-custom" @click="toggleModal">Home</router-link>
-            <router-link to="/heading" class="d-block py-2 text-custom" @click="toggleModal">Services</router-link>
+            <router-link to="/services" class="d-block py-2 text-custom" @click="toggleModal">Services</router-link>
             <router-link to="/work" class="d-block py-2 text-custom" @click="toggleModal">Work</router-link>
-            <router-link to="/price" class="d-block py-2 text-custom" @click="toggleModal">Price</router-link>
+            <router-link to="/contact" class="d-block py-2 text-custom" @click="toggleModal">Contact</router-link>
 
             <!-- Conditional Render for Account Options in Modal -->
             <div v-if="!isLoggedIn">
@@ -101,6 +122,7 @@ export default {
       showDropdown: false,
       isLoggedIn: false, // Track login status
       showModal: false, // Modal visibility
+      showProfileDropdown: false, // Profile dropdown visibility
     };
   },
   methods: {
@@ -113,6 +135,9 @@ export default {
     },
     toggleModal() {
       this.showModal = !this.showModal;
+    },
+    toggleProfileDropdown() {
+      this.showProfileDropdown = !this.showProfileDropdown;
     },
     async logout() {
       try {
@@ -150,10 +175,22 @@ export default {
         console.error("Logout failed:", error.response?.data?.message || error.message);
       }
     },
+    // Close profile dropdown when clicked outside
+    closeProfileDropdown(event) {
+      if (this.$refs.profileDropdown && !this.$refs.profileDropdown.contains(event.target)) {
+        this.showProfileDropdown = false;
+      }
+    },
   },
   mounted() {
     // Check login status on page load
     this.checkLoginStatus();
+    // Add event listener to close profile dropdown on outside click
+    document.addEventListener("click", this.closeProfileDropdown);
+  },
+  beforeDestroy() {
+    // Remove event listener when the component is destroyed
+    document.removeEventListener("click", this.closeProfileDropdown);
   },
   watch: {
     // Watch for changes in localStorage
@@ -177,6 +214,7 @@ export default {
   position: absolute;
   right: 0;
 }
+
 .text-custom {
   color: #050748;
 }
@@ -214,5 +252,21 @@ export default {
     padding: 15px;
   }
 }
-</style>
 
+.logo {
+  font-size: 1.7rem;
+  font-weight: 700;
+  color: #035ebe;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  font-family: 'Arial', sans-serif;
+}
+
+.logo span {
+  color: #28a745;
+}
+
+.logo:hover {
+  color: #ff4500;
+}
+</style>

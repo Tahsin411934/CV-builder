@@ -12,13 +12,18 @@ use App\Http\Controllers\SkillController;
 use App\Http\Controllers\LanguageProficiencyController;
 use App\Http\Controllers\SummaryController;
 use App\Http\Controllers\ProjectController;
+use App\Http\Controllers\UserController;
 
 Route::post('/register', [AuthController::class, 'registration']);
 Route::post('/login', [AuthController::class, 'login']);
+Route::get('/user/{email}', [AuthController::class, 'getByUserMail']);
+Route::post('/user/update', [UserController::class, 'updateUserProfile']);
+Route::post('/user/change-password', [UserController::class, 'changePassword']);
 Route::middleware('auth:sanctum')->post('/logout', [AuthController::class, 'logout']);
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
+
 
   // Fetch by email
 Route::post('/headings', [HeadingController::class, 'store']);        // Create new entry

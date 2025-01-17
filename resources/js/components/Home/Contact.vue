@@ -48,7 +48,7 @@
       <div class="d-flex justify-content-end">
         <button
           type="submit"
-          class="btn bg-custom btn-lg w-25"
+          class="btn bg-custom btn-lg w-md-25"
         >
           Submit
         </button>
