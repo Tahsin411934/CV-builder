@@ -14,8 +14,8 @@ class SkillController extends Controller {
     {
         // Validate the incoming request data
         $validated = $request->validate([
-            'hard_skills' => 'nullable|string|max:255',
-            'soft_skills' => 'nullable|string|max:255',
+            'hard_skills' => 'nullable|string',
+            'soft_skills' => 'nullable|string',
             'user_email' => 'required|email|max:255',
         ]);
     

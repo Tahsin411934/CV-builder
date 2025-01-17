@@ -1,5 +1,5 @@
 <template>
-  <div class="container-sm mx-auto shadow-lg p-5 mt-5" style="width: 40%;">
+  <div class="container-sm mx-auto shadow-lg p-5 mt-5 mb-5" id="responsive-container">
     <h2 class="text-center mb-4 text-custom">Login to your Account</h2>
 
     <!-- Login Form -->
@@ -129,5 +129,36 @@ export default {
 .spinner-border {
   border-width: 2px;
   border-color: white transparent white transparent;
+}
+
+#responsive-container {
+  width: 100%; /* Default for smaller screens */
+}
+
+@media (min-width: 768px) {
+  /* For medium devices and up (tablets and larger) */
+  #responsive-container {
+    width: 60%;
+  }
+}
+
+@media (min-width: 992px) { /* For larger devices */
+  #responsive-container {
+    width: 40%;
+  }
+}
+
+@media (max-width: 767px) { 
+  /* Ensure full width on small devices (portrait phones) */
+  #responsive-container {
+    width: 100%;
+  }
+}
+
+/* Add some padding and margins for small devices */
+@media (max-width: 576px) {
+  #responsive-container {
+    padding: 10px; /* Smaller padding on very small devices */
+  }
 }
 </style>

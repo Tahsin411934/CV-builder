@@ -1,0 +1,119 @@
+<template>
+  <div class="container my-5 p-4 d-flex flex-column">
+    <h2 class="text-center mb-4 custom-text">Contact Us</h2>
+    <form @submit.prevent="handleSubmit" class="flex-grow-1 d-flex flex-column justify-content-between">
+      <!-- Name and Email in the same column -->
+      <div class="row mb-4">
+        <div class="col-md-6">
+          <div class="form-group">
+            <label for="name" class="form-label">Name</label>
+            <input
+              type="text"
+              id="name"
+              v-model="form.name"
+              required
+              class="form-control border-0 border-b-2 border-gray-600 form-control-lg"
+              placeholder="Your Name"
+            />
+          </div>
+        </div>
+        <div class="col-md-6">
+          <div class="form-group">
+            <label for="email" class="form-label">Email</label>
+            <input
+              type="email"
+              id="email"
+              v-model="form.email"
+              required
+              class="form-control border-0 border-b-2 border-gray-600 form-control-lg"
+              placeholder="Your Email"
+            />
+          </div>
+        </div>
+      </div>
+
+      <!-- Message -->
+      <div class="form-group mb-4 flex-grow-1">
+        <label for="message" class="form-label">Message</label>
+        <textarea
+          id="message"
+          v-model="form.message"
+          required
+          class="form-control border-0 border-b-2 border-gray-600 form-control-lg"
+          placeholder="Your Message"
+        ></textarea>
+      </div>
+
+      <!-- Submit Button -->
+      <div class="d-flex justify-content-end">
+        <button
+          type="submit"
+          class="btn bg-custom btn-lg w-25"
+        >
+          Submit
+        </button>
+      </div>
+    </form>
+  </div>
+</template>
+
+<script>
+export default {
+  data() {
+    return {
+      form: {
+        name: '',
+        email: '',
+        message: '',
+      },
+    };
+  },
+  methods: {
+    handleSubmit() {
+      const { name, email, message } = this.form;
+
+      const mailtoLink = `mailto:abrarfahimtasin@gmail.com?subject=Contract Form Submission&body=Name: ${name}%0AEmail: ${email}%0AMessage: ${message}`;
+
+      // Redirect to the email client with prefilled information
+      window.location.href = mailtoLink;
+
+      // Clear the form after submission
+      this.form.name = '';
+      this.form.email = '';
+      this.form.message = '';
+    },
+  },
+};
+</script>
+
+<style scoped>
+/* Optional: Customize style further */
+input, textarea {
+  transition: border-bottom 0.3s ease;
+}
+
+input:focus, textarea:focus {
+  border-bottom: 2px solid #007bff !important;
+  outline: none;
+}
+
+.bg-custom {
+  background: #050748;
+  color: aliceblue;
+}
+
+.container {
+  position: relative;
+}
+
+form {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  height: 100%;
+}
+
+form > .d-flex {
+  margin-top: auto;
+}
+</style>

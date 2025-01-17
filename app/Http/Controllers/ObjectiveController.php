@@ -6,23 +6,7 @@ use App\Models\Objective;
 use Illuminate\Http\Request;
 
 class ObjectiveController extends Controller {
-    /**
-    * Display a listing of the resource.
-    */
-
-    public function index() {
-        $objectives = Objective::all();
-        return response()->json( $objectives );
-    }
-
-    /**
-    * Show the form for creating a new resource.
-    */
-
-    public function create() {
-        // Typically used for returning a view ( for web apps ).
-        // Not needed for APIs unless you're returning a custom form structure.
-    }
+   
 
     /**
      * Store a newly created resource in storage.

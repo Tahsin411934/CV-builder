@@ -16,3 +16,9 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', function () {
     return view('welcome');
 });
+
+// Redirect all non-API routes to the Vue app (index.html)
+Route::get('/{any}', function () {
+    return view('welcome');  // or wherever your Vue app entry point is
+})->where('any', '.*');
+

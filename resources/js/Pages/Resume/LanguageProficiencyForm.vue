@@ -91,7 +91,7 @@
       <div class="row mb-4">
         <div class="col-12 d-flex justify-content-between">
           <router-link
-            to="/previous-step"
+            to="/resume/skills"
             class="text-dark border border-dark btn text-decoration-none mx-3 fw-medium hover-link px-4 fs-4 rounded-5"
           >
             Previous
@@ -121,7 +121,7 @@
 </template>
 
 <script>
-import axios from "axios";
+
 
 export default {
   data() {
@@ -182,7 +182,11 @@ export default {
 
         if (response.status === 201) {
           this.resetForm();
-          this.$router.push("/next-step");
+
+          this.$router.push("/project");
+
+          this.$router.push("/resume/finalize");
+
         }
       } catch (error) {
         this.errorMessage = error.response?.data?.message || "An error occurred!";

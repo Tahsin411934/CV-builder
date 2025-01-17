@@ -1,16 +1,16 @@
 <template>
-  <header class="shadow-sm bg-white">
+  <header class="shadow-sm bg-white ">
     <div class="container-sm mx-auto d-flex justify-content-between align-items-center py-3">
       <!-- Logo Section -->
       <div class="d-flex align-items-center">
         <img src="logo.png" alt="Logo" class="img-fluid" style="height: 30px;" />
       </div>
 
-      <!-- Navigation Links -->
-      <nav class="d-flex align-items-center">
+      <!-- Desktop Navigation Links -->
+      <nav class="d-none d-md-flex align-items-center">
         <router-link
           to="/"
-          class=" fs-5 text-custom  text-decoration-none mx-3 fw-medium hover-link"
+          class="fs-5 text-custom text-decoration-none mx-3 fw-medium hover-link"
         >
           Home
         </router-link>
@@ -50,7 +50,42 @@
           </button>
         </div>
       </nav>
+
+      <!-- Hamburger Button (Visible on Mobile) -->
+      <button class="d-md-none btn btn-link" @click="toggleModal">
+        <i class="fas fa-bars"></i>
+      </button>
     </div>
+
+    <!-- Modal for Mobile Navigation -->
+    <div v-if="showModal" class="modal fade show" tabindex="-1" style="display: block;" aria-hidden="false">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title">Navigation</h5>
+            <button type="button" class="btn-close" @click="toggleModal">X</button>
+          </div>
+          <div class="modal-body">
+            <router-link to="/" class="d-block py-2 text-custom" @click="toggleModal">Home</router-link>
+            <router-link to="/heading" class="d-block py-2 text-custom" @click="toggleModal">Services</router-link>
+            <router-link to="/work" class="d-block py-2 text-custom" @click="toggleModal">Work</router-link>
+            <router-link to="/price" class="d-block py-2 text-custom" @click="toggleModal">Price</router-link>
+
+            <!-- Conditional Render for Account Options in Modal -->
+            <div v-if="!isLoggedIn">
+              <router-link to="/register" class="d-block py-2 text-custom" @click="toggleModal">Register</router-link>
+              <router-link to="/login" class="d-block py-2 text-custom" @click="toggleModal">Login</router-link>
+            </div>
+            <div v-else>
+              <button @click="logout" class="btn bg-custom bg-hover text-white w-100 py-2">
+                Logout
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div v-if="showModal" class="modal-backdrop fade show" @click="toggleModal"></div>
   </header>
 </template>
 
@@ -65,6 +100,7 @@ export default {
     return {
       showDropdown: false,
       isLoggedIn: false, // Track login status
+      showModal: false, // Modal visibility
     };
   },
   methods: {
@@ -74,6 +110,9 @@ export default {
     },
     toggleDropdown() {
       this.showDropdown = !this.showDropdown;
+    },
+    toggleModal() {
+      this.showModal = !this.showModal;
     },
     async logout() {
       try {
@@ -139,14 +178,41 @@ export default {
   right: 0;
 }
 .text-custom {
-      color: #050748; 
-    }
-
-.bg-custom{
-  background: #050748;
-  
+  color: #050748;
 }
- .bg-hover:hover {
-    background-color: #0f17e9 !important;
+
+.bg-custom {
+  background: #050748;
+}
+
+.bg-hover:hover {
+  background-color: #0f17e9 !important;
+}
+
+.modal-backdrop {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  z-index: 1040;
+}
+
+.modal-content {
+  border-radius: 10px;
+}
+
+.btn-close {
+  background: transparent;
+  border: none;
+}
+
+@media (max-width: 767px) {
+  /* Adjust modal content padding */
+  .modal-content {
+    padding: 15px;
   }
+}
 </style>
+

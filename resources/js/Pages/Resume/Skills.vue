@@ -1,16 +1,18 @@
 <template>
   <div class="container mt-2">
     <!-- Header Section -->
-    
 
     <div class="card shadow-sm">
-     <div class="col-md-9 d-flex px-3 ">
-          <div class=" text-custom pt-3 ">
-            <h5 class="fw-bold ">Step-5:Skills</h5>
-            <p>Fill in the details below to proceed with your CV creation. Follow all the steps carefully to build a professional CV tailored just for you</p>
-          </div>
+      <div class="col-md-9 d-flex px-3">
+        <div class="text-custom pt-3">
+          <h5 class="fw-bold">Step-5:Skills</h5>
+          <p>
+            Fill in the details below to proceed with your CV creation. Follow all the
+            steps carefully to build a professional CV tailored just for you
+          </p>
         </div>
-      
+      </div>
+
       <!-- Form Section -->
       <div class="card-body">
         <form @submit.prevent="submitForm">
@@ -61,19 +63,28 @@
               >
                 Previous
               </router-link>
-              <button
-                type="submit"
-                class="btn btn-warning px-4 fs-4 rounded-5"
-                aria-live="polite"
-              >
-                <span
-                  v-if="loading"
-                  class="spinner-border spinner-border-sm"
-                  role="status"
-                  aria-hidden="true"
-                ></span>
-                <span v-else>Next</span>
-              </button>
+              <div>
+                <router-link
+                  style="background: #388e3c"
+                  to="/resume/language-proficiency"
+                  class="text-white btn text-decoration-none mx-3 fw-medium hover-link px-4 fs-4 rounded-5"
+                >
+                  Skip
+                </router-link>
+                <button
+                  type="submit"
+                  class="btn btn-warning px-4 fs-4 rounded-5"
+                  aria-live="polite"
+                >
+                  <span
+                    v-if="loading"
+                    class="spinner-border spinner-border-sm"
+                    role="status"
+                    aria-hidden="true"
+                  ></span>
+                  <span v-else>Next</span>
+                </button>
+              </div>
             </div>
           </div>
         </form>

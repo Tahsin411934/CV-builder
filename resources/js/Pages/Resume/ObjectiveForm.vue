@@ -1,5 +1,5 @@
 <template>
-  <div class="container mt-5">
+  <div class="container mt-3">
     <!-- Step Indicator -->
 
     <!-- Header Section -->
@@ -13,78 +13,86 @@
         </p>
       </div>
     </div>
-   <div class="card shadow-sm">
-      <div class=" d-flex ">
-          <div class=" text-custom p-3 ">
-            <h5 class="fw-bold ">Step-1:Objective</h5>
-           
-          </div>
+    <div class="card shadow-sm">
+      <div class="d-flex">
+        <div class="text-custom p-3">
+          <h5 class="fw-bold">Step-1:Objective</h5>
         </div>
-        <hr>
+      </div>
+      <hr />
       <!-- Form Section -->
-       <div class="">
-      <div class=" ">
-        <div class="card-body">
-          <form @submit.prevent="submitForm">
-            <!-- Objective Field -->
-            <div class="mb-3">
-              <label for="objective" class="form-label">Write Here an Objective</label>
-              <textarea
-                id="objective"
-                v-model="formData.objective"
-                class="form-control pb-5"
-                rows="3"
-                placeholder="Enter your career objective or summary "
-                required
-              ></textarea>
-            </div>
-
-            <!-- Email Field (Hidden but populated) -->
-            <div class="mb-3 d-none">
-              <label for="user_email" class="form-label">Email</label>
-              <input
-                type="email"
-                id="user_email"
-                v-model="formData.user_email"
-                class="form-control"
-                placeholder="Enter your email"
-                required
-                readonly
-              />
-            </div>
-
-            <!-- Submit and Navigation Buttons -->
-            <div class="row mb-4">
-              <div class="col-12 d-flex justify-content-between">
-                <router-link
-                  to="/resume"
-                  class="text-custom border border-dark btn text-decoration-none mx-3 fw-medium hover-link px-4 fs-4 rounded-5"
-                >
-                  Previous
-                </router-link>
-                <button type="submit" class="btn btn-warning px-4 fs-4 rounded-5">
-                  <span
-                    v-if="loading"
-                    class="spinner-border spinner-border-sm"
-                    role="status"
-                    aria-hidden="true"
-                  ></span>
-                  <span v-else>Next</span>
-                </button>
+      <div class="">
+        <div class=" ">
+          <div class="card-body">
+            <form @submit.prevent="submitForm">
+              <!-- Objective Field -->
+              <div class="mb-3">
+                <label for="objective" class="form-label">Write Here an Objective</label>
+                <textarea
+                  id="objective"
+                  v-model="formData.objective"
+                  class="form-control pb-5"
+                  rows="3"
+                  placeholder="Enter your career objective or summary "
+                  required
+                ></textarea>
               </div>
+
+              <!-- Email Field (Hidden but populated) -->
+              <div class="mb-3 d-none">
+                <label for="user_email" class="form-label">Email</label>
+                <input
+                  type="email"
+                  id="user_email"
+                  v-model="formData.user_email"
+                  class="form-control"
+                  placeholder="Enter your email"
+                  required
+                  readonly
+                />
+              </div>
+
+              <!-- Submit and Navigation Buttons -->
+              <div class="row mb-4">
+                <div class="col-12 d-flex justify-content-between">
+                  <router-link
+                    to="/resume"
+                    class="text-custom border border-dark btn text-decoration-none mx-3 fw-medium hover-link px-4 fs-4 rounded-5"
+                  >
+                    Previous
+                  </router-link>
+                  <div>
+                    <router-link
+                    style="background: #388E3C;"
+                      to="/heading"
+                      class="text-white   btn text-decoration-none mx-3 fw-medium hover-link px-4 fs-4 rounded-5"
+                    >
+                      Skip
+                    </router-link>
+                    <button type="submit" class="btn btn-warning px-4 fs-4 rounded-5">
+                      <span
+                        v-if="loading"
+                        class="spinner-border spinner-border-sm"
+                        role="status"
+                        aria-hidden="true"
+                      ></span>
+                      <span v-else>Next</span>
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </form>
+
+            <!-- Success Message -->
+            <div v-if="successMessage" class="alert alert-success mt-4">
+              {{ successMessage }}
             </div>
-          </form>
 
-          <!-- Success Message -->
-          <div v-if="successMessage" class="alert alert-success mt-4">
-            {{ successMessage }}
+            <!-- Error Message -->
+            <div v-if="errorMessage" class="alert alert-danger mt-4">
+              {{ errorMessage }}
+            </div>
           </div>
-
-          <!-- Error Message -->
-          <div v-if="errorMessage" class="alert alert-danger mt-4">
-            {{ errorMessage }}
-          </div>
-        </div>
         </div>
       </div>
     </div>
@@ -113,7 +121,7 @@ export default {
       if (user && user.email) {
         try {
           const response = await axios.get(
-            `http://127.0.0.1:8000/api/objective/${user.email}`
+            `/api/objective/${user.email}`
           );
           const data = response.data?.data || {};
           console.log(data);
@@ -135,7 +143,7 @@ export default {
       this.loading = true; // Start loading
       try {
         const response = await axios.post(
-          "http://127.0.0.1:8000/api/objectives",
+          "/api/objectives",
           this.formData
         );
         this.successMessage = response.data.message;

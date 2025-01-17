@@ -26,6 +26,7 @@ const routes = [
         path: "/overview",
         name: "OverviewR",
         component: () => import("../Pages/Overview.vue"), // Lazy-loaded
+        meta: { requiresAuth: true },
     },
     {
         path: "/resume",
@@ -61,6 +62,12 @@ const routes = [
                 meta: { requiresAuth: true },
             },
             {
+                path: "/resume/finalize",
+                name: "Summary",
+                component: () => import("../Pages/Resume/Summary.vue"), // Lazy-loaded
+                meta: { requiresAuth: true },
+            },
+            {
                 path: "/resume/skills",
                 name: "Skills",
                 component: () => import("../pages/Resume/Skills.vue"), // Lazy-loaded
@@ -69,6 +76,18 @@ const routes = [
                 path: "/resume/language-proficiency",
                 name: "language-proficiency",
                 component: () => import("../pages/Resume/LanguageProficiencyForm.vue"), // Lazy-loaded
+            },
+            {
+
+                path: "/project",
+                name: "Projects",
+                component: () => import("../pages/Resume/Projects.vue"), // Lazy-loaded
+            },
+            {
+
+                path: "/resume/PDF",
+                name: "PDF",
+                component: () => import("../Pages/Resume/PDF.vue"), // Lazy-loaded
             },
         ],
     },
@@ -79,6 +98,12 @@ const routes = [
 const router = createRouter({
     history: createWebHistory(),
     routes,
+    scrollBehavior(to, from, savedPosition) {
+        return {
+          top: 0,
+          behavior: 'smooth', // মসৃণ স্ক্রল
+        };
+      },
 });
 
 export default router;
