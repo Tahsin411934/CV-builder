@@ -43,6 +43,7 @@
               <option value="BSc">BSc</option>
               <option value="BBA">BBA</option>
               <option value="MSc">MSc</option>
+              <option value="BSS">BSS</option>
               <option value="MBA">MBA</option>
               <option value="PhD">PhD</option>
             </select>
@@ -300,6 +301,8 @@ export default {
           return "Master of Business Administration";
         case "PhD":
           return "Doctor of Philosophy";
+        case "BSS":
+          return "Master of Science"; // Fixed case for BSS
         default:
           return "New Record";
       }

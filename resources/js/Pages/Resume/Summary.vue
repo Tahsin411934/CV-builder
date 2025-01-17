@@ -31,7 +31,7 @@
           <div class="col-4 col-sm-3 d-flex justify-content-start align-items-center">
             <img
               :src="`http://127.0.0.1:8000/storage/${info.heading.image}`"
-              alt="Profile of {{ info.heading.name }}"
+              alt=""
               class="profile-image mb-0"
             />
           </div>

@@ -23,7 +23,7 @@
           Free CV
         </router-link>
         <router-link
-          to="/"
+          to="/premiumcv"
           class="fs-6 text-custom text-decoration-none mx-3 fw-medium hover-link"
         >
           Premium CV

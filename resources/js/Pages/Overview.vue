@@ -23,14 +23,17 @@
         <img src="/preResume.png" alt="Creative Design" class="img-fluid rounded" />
       </div>
     </div>
+    <Gideline />
   </div>
 </template>
 
 <script>
 import Typewriter from 'typewriter-effect/dist/core';
+import Gideline from '../components/Gideline.vue';
 
 export default {
   name: "OverviewR",
+  components: { Gideline }, // Register Gideline here
   mounted() {
     // Initialize the typewriter effect
     const typewriter = new Typewriter(this.$refs.typewriter, {

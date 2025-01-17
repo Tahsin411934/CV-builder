@@ -32,6 +32,12 @@ const routes = [
         path: "/services",
         name: "services",
         component: () => import("../components/Home/Services.vue"), // Lazy-loaded
+       
+    },
+    {
+        path: "/premiumcv",
+        name: "premiumcv",
+        component: () => import("../components/premiumcv.vue"), // Lazy-loaded
         meta: { requiresAuth: true },
     },
     {
