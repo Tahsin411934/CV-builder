@@ -27,60 +27,56 @@
             <form @submit.prevent="submitForm">
               <!-- Objective Field -->
               <div class="mb-3">
-                <label for="objective" class="form-label">Write Here an Objective</label>
-                <textarea
-                  id="objective"
-                  v-model="formData.objective"
-                  class="form-control pb-5"
-                  rows="3"
-                  placeholder="Enter your career objective or summary "
-                  required
-                ></textarea>
+                <label for="objective" class="form-label">Write or update Objective: </label>
+                <textarea id="objective" v-model="formData.objective" class="form-control pb-5" rows="3"
+                  placeholder="Enter your career objective or summary " required></textarea>
               </div>
 
               <!-- Email Field (Hidden but populated) -->
               <div class="mb-3 d-none">
                 <label for="user_email" class="form-label">Email</label>
-                <input
-                  type="email"
-                  id="user_email"
-                  v-model="formData.user_email"
-                  class="form-control"
-                  placeholder="Enter your email"
-                  required
-                  readonly
-                />
+                <input type="email" id="user_email" v-model="formData.user_email" class="form-control"
+                  placeholder="Enter your email" required readonly />
               </div>
 
               <!-- Submit and Navigation Buttons -->
-              <div class="row mb-4">
-                <div class="col-12 d-flex justify-content-between">
-                  <router-link
-                    to="/resume"
-                    class="text-custom border border-dark btn text-decoration-none mx-3 fw-medium hover-link px-4 fs-4 rounded-5"
-                  >
-                    Previous
-                  </router-link>
-                  <div>
-                    <router-link
-                    style="background: #388E3C;"
-                      to="/heading"
-                      class="text-white   btn text-decoration-none mx-3 fw-medium hover-link px-4 fs-4 rounded-5"
-                    >
-                      Skip
-                    </router-link>
-                    <button type="submit" class="btn btn-warning px-4 fs-4 rounded-5">
-                      <span
-                        v-if="loading"
-                        class="spinner-border spinner-border-sm"
-                        role="status"
-                        aria-hidden="true"
-                      ></span>
-                      <span v-else>Next</span>
-                    </button>
-                  </div>
-                </div>
-              </div>
+<div class="row mb-4">
+  <div class="col-12 d-flex justify-content-between">
+    <!-- Previous Button -->
+    <router-link to="/overview"
+      class="text-custom border d-none d-md-block border-dark btn btn-lg text-decoration-none mx-3 fw-medium hover-link px-4 rounded-5">
+      Previous
+    </router-link>
+    <router-link to="/overview"
+      class="text-custom d-block d-md-none btn btn-sm text-decoration-none mx-3 fw-medium hover-link rounded-5">
+      ⬅️
+    </router-link>
+
+    <!-- Skip and Next Buttons -->
+    <div class="d-flex">
+      <router-link style="background: #388E3C;" to="/heading"
+        class="text-white btn btn-lg d-none d-md-block text-decoration-none mx-3 fw-medium hover-link px-4 rounded-5">
+        Skip
+      </router-link>
+      <router-link style="background: #388E3C;" to="/heading"
+        class="text-white btn d-block d-md-none text-decoration-none mx-3 fw-medium hover-link px-4 rounded-5">
+        Skip
+      </router-link>
+
+      <button type="submit"
+        class="btn btn-warning px-4 rounded-5 btn-lg d-none d-md-block">
+        <span v-if="loading" class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+        <span v-else>Next</span>
+      </button>
+      <button type="submit"
+        class="btn btn-warning px-4 rounded-5 d-block d-md-none">
+        <span v-if="loading" class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+        <span v-else>Next</span>
+      </button>
+    </div>
+  </div>
+</div>
+
             </form>
 
             <!-- Success Message -->

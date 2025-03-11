@@ -94,6 +94,7 @@ export default {
       this.loading = true; // Show loading spinner
 
       try {
+      console.log(this.form)
         const response = await axios.post('/api/register', this.form);
 
         // Handle success response

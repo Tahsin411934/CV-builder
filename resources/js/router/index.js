@@ -35,9 +35,15 @@ const routes = [
        
     },
     {
-        path: "/premiumcv",
+        path: "/premiumcv/select-tamplate",
         name: "premiumcv",
         component: () => import("../components/premiumcv.vue"), // Lazy-loaded
+        meta: { requiresAuth: true },
+    },
+    {
+        path: "/premiumcv/overview",
+        name: "premiumcvOverview",
+        component: () => import("../Pages/PremiumCV/overview.vue"), // Lazy-loaded
         meta: { requiresAuth: true },
     },
     {

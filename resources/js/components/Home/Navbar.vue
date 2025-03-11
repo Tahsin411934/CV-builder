@@ -4,7 +4,7 @@
       <!-- Logo Section -->
       <div class="d-flex align-items-center">
         <span class="logo">
-          Freelancing <span>Hub</span>
+          Resume <span>Builder</span>
         </span>
       </div>
 
@@ -23,7 +23,7 @@
           Free CV
         </router-link>
         <router-link
-          to="/premiumcv"
+          to="/premiumcv/overview"
           class="fs-6 text-custom text-decoration-none mx-3 fw-medium hover-link"
         >
           Premium CV
