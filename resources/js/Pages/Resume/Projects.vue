@@ -190,6 +190,7 @@
 export default {
   data() {
     return {
+      templateId: null,
       projects: [],
       errorMessage: "",
       loading: false,
@@ -231,6 +232,11 @@ export default {
         );
         if (response.status === 201) {
           this.$router.push("/resume/finalize");
+          this.$router.push(
+                    this.templateId
+                        ? `/premiumcv/${this.templateId}/finalize`
+                        : "/finalize"
+                );
         }
       } catch (error) {
         this.errorMessage = error.response?.data?.message || "An error occurred!";
@@ -275,6 +281,7 @@ export default {
   },
   mounted() {
     this.fetchProjects();
+    this.templateId = this.$route.params.id;
   },
 };
 </script>

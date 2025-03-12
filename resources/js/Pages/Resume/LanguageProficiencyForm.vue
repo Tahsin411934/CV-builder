@@ -126,6 +126,7 @@
 export default {
   data() {
     return {
+      templateId: null,
       languages: [
         {
           Language: "",
@@ -183,9 +184,12 @@ export default {
         if (response.status === 201) {
           this.resetForm();
 
-          this.$router.push("/project");
-
-          this.$router.push("/resume/finalize");
+       
+          this.$router.push(
+                    this.templateId
+                        ? `/premiumcv/${this.templateId}/project`
+                        : "/project"
+                );
 
         }
       } catch (error) {
@@ -235,6 +239,7 @@ export default {
   },
   mounted() {
     this.userEmail();
+    this.templateId = this.$route.params.id;
   },
 };
 </script>

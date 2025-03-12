@@ -13,6 +13,12 @@ use App\Http\Controllers\LanguageProficiencyController;
 use App\Http\Controllers\SummaryController;
 use App\Http\Controllers\ProjectController;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\CvTemplateController;
+use App\Http\Controllers\Test1Controller;
+use App\Http\Controllers\PremiumCvController;
+use App\Http\Controllers\PaymentController;
+
+Route::apiResource('payments', PaymentController::class);
 
 Route::post('/register', [AuthController::class, 'registration']);
 Route::post('/login', [AuthController::class, 'login']);
@@ -58,3 +64,14 @@ Route::get('/language-proficiencybyemail/{email}', [LanguageProficiencyControlle
 
  Route::resource('projects', ProjectController::class);
  Route::get('/project/{email}', [ProjectController::class, 'getByEmail']);
+
+
+
+Route::apiResource('cv-templates', CvTemplateController::class);
+Route::put('/update/{id}', [CvTemplateController::class, 'update']);
+// routes/api.php
+
+
+Route::apiResource('premium-cvs', PremiumCvController::class);
+
+Route::apiResource('tests', TestController::class);

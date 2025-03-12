@@ -1,5 +1,5 @@
 <template>
-  <header class="shadow-sm bg-white ">
+  <header class="shadow-lg bg-white ">
     <div class="container-sm mx-auto d-flex justify-content-between align-items-center py-3">
       <!-- Logo Section -->
       <div class="d-flex align-items-center">
@@ -23,7 +23,7 @@
           Free CV
         </router-link>
         <router-link
-          to="/premiumcv/overview"
+          to="/premiumcv/select-tamplate"
           class="fs-6 text-custom text-decoration-none mx-3 fw-medium hover-link"
         >
           Premium CV

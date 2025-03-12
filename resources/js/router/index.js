@@ -8,9 +8,9 @@ const routes = [
         component: () => import("../Pages/Home.vue"), // Lazy-loaded
     },
     {
-        path: "/about",
+        path: "/createTest",
         name: "About",
-        component: () => import("../components/About.vue"), // Lazy-loaded
+        component: () => import("../Pages/CreateTest.vue"), // Lazy-loaded
     },
     {
         path: "/register",
@@ -32,18 +32,23 @@ const routes = [
         path: "/services",
         name: "services",
         component: () => import("../components/Home/Services.vue"), // Lazy-loaded
-       
     },
     {
         path: "/premiumcv/select-tamplate",
         name: "premiumcv",
-        component: () => import("../components/premiumcv.vue"), // Lazy-loaded
+        component: () => import("../Pages/PremiumCV/tamplate.vue"), // Lazy-loaded
         meta: { requiresAuth: true },
     },
     {
         path: "/premiumcv/overview",
         name: "premiumcvOverview",
         component: () => import("../Pages/PremiumCV/overview.vue"), // Lazy-loaded
+        meta: { requiresAuth: true },
+    },
+    {
+        path: "/premiumcv/create/:templateId",
+        name: "templateId",
+        component: () => import("../Pages/PremiumCV/create.vue"), // Lazy-loaded
         meta: { requiresAuth: true },
     },
     {
@@ -59,13 +64,13 @@ const routes = [
         children: [
             {
                 path: "/resume/overview",
-                name: "Overview",
+                
                 component: () => import("../Pages/Resume/Overview.vue"), // Lazy-loaded
                 meta: { requiresAuth: true },
             },
             {
                 path: "/heading",
-                name: "Heading",
+                
                 component: () => import("../Pages/Resume/Heading.vue"), // Lazy-loaded
                 meta: { requiresAuth: true },
             },
@@ -99,23 +104,108 @@ const routes = [
             {
                 path: "/resume/language-proficiency",
                 name: "language-proficiency",
-                component: () => import("../pages/Resume/LanguageProficiencyForm.vue"), // Lazy-loaded
+                component: () =>
+                    import("../pages/Resume/LanguageProficiencyForm.vue"), // Lazy-loaded
             },
             {
-
                 path: "/project",
                 name: "Projects",
                 component: () => import("../pages/Resume/Projects.vue"), // Lazy-loaded
             },
             {
-
                 path: "/resume/PDF",
                 name: "PDF",
                 component: () => import("../Pages/Resume/PDF.vue"), // Lazy-loaded
             },
         ],
     },
-    
+
+    {
+        path: "/dashboard",
+        component: () => import("../Pages/dashboard/Dashboard.vue"),
+        children: [
+            {
+                path: "manage-tamplate",
+                component: () =>
+                    import(
+                        /* webpackChunkName: "overview" */ "../Pages/dashboard/CvTemplateTable.vue"
+                    ),
+            },
+        ],
+    },
+    {
+        path: "/",
+        redirect: "/dashboard/overview", // Redirect to dashboard by default
+    },
+    {
+        path: "/premiumcv/:id",
+        component: () => import("../Pages/PremiumCV/Layout.vue"),
+        children: [
+            {
+                path: "objective",
+               
+                component: () => import("../pages/Resume/ObjectiveForm.vue"), // Lazy-loaded
+                meta: { requiresAuth: true },
+            },
+            {
+                path: "heading",
+                
+                component: () => import("../Pages/Resume/Heading.vue"), // Lazy-loaded
+                meta: { requiresAuth: true },
+            },
+            {
+                path: "education",
+                component: () => import("../Pages/Resume/Eduction.vue"), // Lazy-loaded
+                meta: { requiresAuth: true },
+            },
+            {
+                path: "experience",
+                
+                component: () => import("../pages/Resume/ExperienceForm.vue"), // Lazy-loaded
+                meta: { requiresAuth: true },
+            },
+            {
+                path: "objective",
+               
+                component: () => import("../pages/Resume/ObjectiveForm.vue"), // Lazy-loaded
+                meta: { requiresAuth: true },
+            },
+            {
+                path: "finalize",
+               
+                component: () => import("../Pages/PremiumCV/Summary.vue"), // Lazy-loaded
+                meta: { requiresAuth: true },
+            },
+            {
+                path: "skills",
+               
+                component: () => import("../pages/Resume/Skills.vue"), // Lazy-loaded
+                meta: { requiresAuth: true },
+            },
+            {
+                path: "language-proficiency",
+               
+                component: () =>
+                    import("../pages/Resume/LanguageProficiencyForm.vue"), // Lazy-loaded
+                meta: { requiresAuth: true },
+            },
+            {
+                path: "project",
+                component: () => import("../pages/Resume/Projects.vue"), // Lazy-loaded
+                meta: { requiresAuth: true },
+            },
+            {
+                path: "payment",
+                component: () => import("../Pages/PremiumCV/Payment.vue"),
+
+                meta: { requiresAuth: true },
+            },
+        ],
+    },
+    {
+        path: "/",
+        redirect: "/premiumcv/:id/objective", // Redirect to dashboard by default
+    },
 ];
 
 // Create the router instance
@@ -124,10 +214,10 @@ const router = createRouter({
     routes,
     scrollBehavior(to, from, savedPosition) {
         return {
-          top: 0,
-          behavior: 'smooth', // মসৃণ স্ক্রল
+            top: 0,
+            behavior: "smooth", // মসৃণ স্ক্রল
         };
-      },
+    },
 });
 
 export default router;

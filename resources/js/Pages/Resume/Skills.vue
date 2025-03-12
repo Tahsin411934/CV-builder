@@ -109,7 +109,9 @@ import axios from "axios";
 export default {
   name: "ObjectiveForm",
   data() {
+    
     return {
+      templateId: null,
       formData: {
         hard_skills: "",
         soft_skills: "",
@@ -153,7 +155,12 @@ export default {
         this.successMessage = response.data.message;
         this.formData.hard_skills = "";
         this.formData.soft_skills = "";
-        this.$router.push("/resume/language-proficiency");
+       
+        this.$router.push(
+                    this.templateId
+                        ? `/premiumcv/${this.templateId}/language-proficiency`
+                        : "/language-proficiency"
+                );
       } catch (error) {
         this.errorMessage = error.response?.data?.message || "An error occurred.";
       } finally {
@@ -163,6 +170,7 @@ export default {
   },
   mounted() {
     this.userEmail();
+    this.templateId = this.$route.params.id;
   },
 };
 </script>

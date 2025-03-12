@@ -166,6 +166,7 @@ import axios from "axios";
 export default {
   data() {
     return {
+      templateId: null,
       educations: [
         {
           name_of_institute: "",
@@ -227,7 +228,12 @@ export default {
 
         if (response.status === 201) {
           this.resetForm();
-          this.$router.push("/experience");
+          // this.$router.push("/experience");
+          this.$router.push(
+                    this.templateId
+                        ? `/premiumcv/${this.templateId}/experience`
+                        : "/experience"
+                );
         }
       } catch (error) {
         this.errorMessage = error.response?.data?.message || "An error occurred!";
@@ -310,6 +316,7 @@ export default {
   },
   mounted() {
     this.userEmail();
+    this.templateId = this.$route.params.id;
   },
 };
 </script>

@@ -168,6 +168,7 @@ import axios from "axios";
 export default {
   data() {
     return {
+      templateId: null,
       experiences: [
         {
           job_title: "",
@@ -231,7 +232,12 @@ export default {
 
         if (response.status === 201) {
           this.resetForm();
-          this.$router.push("/resume/skills");
+        
+          this.$router.push(
+                    this.templateId
+                        ? `/premiumcv/${this.templateId}/skills`
+                        : "/skills"
+                );
         }
       } catch (error) {
         this.errorMessage = error.response?.data?.message || "An error occurred!";
@@ -288,6 +294,7 @@ export default {
   },
   mounted() {
     this.userEmail();
+    this.templateId = this.$route.params.id;
   },
 };
 </script>
