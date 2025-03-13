@@ -1,93 +1,91 @@
 <template>
-    <div class="py-3 min-vh-100" style="background-color: #07142B;">
-      <div class="row justify-content-center">
-        <div>
-          <div class="timeline position-relative">
-            <div
-              v-for="(step, index) in steps"
-              :key="index"
-              :class="['timeline-step', { active: isActiveRoute(step.route) }]"
-              @click="navigateToStep(step.route)"
-            >
-              <div class="d-flex align-items-center position-relative">
-                <div class="step-number position-relative">
-                  {{ index + 1 }}
-                  <!-- Vertical line connecting steps -->
-                  <hr
-                    v-if="index < steps.length - 1"
-                    class="timeline-hr"
-                    :style="{ top: `${hrHeight}px` }"
-                  />
-                </div>
-                <div class="step-content fs">
-                  <h5>{{ step.label }}</h5>
-                </div>
+  <div class="py-3 min-vh-100" style="background-color: #07142B;">
+    <div class="row justify-content-center">
+      <div>
+        <div class="timeline position-relative">
+          <div
+            v-for="(step, index) in steps"
+            :key="index"
+            :class="['timeline-step', { active: isActiveRoute(step.route), disabled: step.label === 'Confirm Order' && !paymentSubmitted }]"
+            @click="navigateToStep(step.route)"
+          >
+            <div class="d-flex align-items-center position-relative">
+              <div class="step-number position-relative">
+                {{ index + 1 }}
+                <!-- Vertical line connecting steps -->
+                <hr
+                  v-if="index < steps.length - 1"
+                  class="timeline-hr"
+                  :style="{ top: `${hrHeight}px` }"
+                />
+              </div>
+              <div class="step-content fs">
+                <h5>{{ step.label }}</h5>
               </div>
             </div>
           </div>
         </div>
       </div>
     </div>
-  </template>
-  
+  </div>
+</template>
   <script>
   export default {
-    props: {
-      templateId: {
-        type: String, // Define the prop type
-        required: true, // Ensure the prop is passed
+      props: {
+          templateId: {
+              type: String,
+              required: true,
+          },
       },
-    },
-    data() {
-      return {
-        hrHeight: 40, // Default height for the connecting hr
-      };
-    },
-    computed: {
-      steps() {
-        // Generate steps dynamically based on templateId
-        return [
-          { label: "Objective", route: `/premiumcv/${this.templateId}/objective` },
-          { label: "Heading", route: `/premiumcv/${this.templateId}/heading` },
-          { label: "Education", route: `/premiumcv/${this.templateId}/education` },
-          { label: "Experience", route: `/premiumcv/${this.templateId}/experience` },
-          { label: "Skills", route: `/premiumcv/${this.templateId}/skills` },
-          { label: "Language Proficiency", route: `/premiumcv/${this.templateId}/language-proficiency` },
-          { label: "Project", route: `/premiumcv/${this.templateId}/project` },
-          { label: "Summary", route: `/premiumcv/${this.templateId}/finalize` },
-          { label: "Instruction", route: `/premiumcv/${this.templateId}/project` },
-          { label: "Payment", route: `/premiumcv/${this.templateId}/payment` },
-          { label: "Confirm Order", route: `/premiumcv/${this.templateId}/finalize` },
-        ];
+      data() {
+          return {
+              hrHeight: 40,
+              paymentSubmitted: localStorage.getItem('paymentSubmitted') === 'true', // Initialize paymentSubmitted from localStorage
+          };
       },
-    },
-    methods: {
-      navigateToStep(route) {
-        this.$router.push(route); // Navigate to the resolved route
+      computed: {
+          steps() {
+              return [
+                  { label: "Objective", route: `/premiumcv/${this.templateId}/objective` },
+                  { label: "Heading", route: `/premiumcv/${this.templateId}/heading` },
+                  { label: "Education", route: `/premiumcv/${this.templateId}/education` },
+                  { label: "Experience", route: `/premiumcv/${this.templateId}/experience` },
+                  { label: "Skills", route: `/premiumcv/${this.templateId}/skills` },
+                  { label: "Language Proficiency", route: `/premiumcv/${this.templateId}/language-proficiency` },
+                  { label: "Project", route: `/premiumcv/${this.templateId}/project` },
+                  { label: "Summary", route: `/premiumcv/${this.templateId}/finalize` },
+                  { label: "Instruction", route: `/premiumcv/${this.templateId}/project` },
+                  { label: "Payment", route: `/premiumcv/${this.templateId}/payment` },
+                  { label: "Confirm Order", route: `/premiumcv/${this.templateId}/confirm-order` },
+              ];
+          },
       },
-      isActiveRoute(route) {
-        return this.$route.path === route; // Check if the route is active
+      methods: {
+          navigateToStep(route) {
+              if (route.includes('finalize') && !this.paymentSubmitted) {
+                  alert('Please complete the payment first.');
+                  return;
+              }
+              this.$router.push(route);
+          },
+          isActiveRoute(route) {
+              return this.$route.path === route;
+          },
+          updateHrHeight() {
+              const stepNumberElement = document.querySelector(".step-number");
+              if (stepNumberElement) {
+                  const stepHeight = stepNumberElement.offsetHeight;
+                  this.hrHeight = stepHeight / 2;
+              }
+          },
       },
-      updateHrHeight() {
-        // Dynamically calculate the height of the `hr` based on the step number size
-        const stepNumberElement = document.querySelector(".step-number");
-        if (stepNumberElement) {
-          const stepHeight = stepNumberElement.offsetHeight;
-          this.hrHeight = stepHeight / 2; // Adjust height to match visual alignment
-        }
+      mounted() {
+          this.updateHrHeight();
+          window.addEventListener("resize", this.updateHrHeight);
       },
-    },
-    mounted() {
-      // Update `hr` height on component mount
-      this.updateHrHeight();
-      // Add listener for window resize to dynamically adjust
-      window.addEventListener("resize", this.updateHrHeight);
-      console.log(this.templateId); // Debugging
-    },
-    beforeUnmount() {
-      // Clean up event listener on unmount
-      window.removeEventListener("resize", this.updateHrHeight);
-    },
+      beforeUnmount() {
+          window.removeEventListener("resize", this.updateHrHeight);
+      },
   };
   </script>
   

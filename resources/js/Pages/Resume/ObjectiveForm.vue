@@ -160,8 +160,9 @@ export default {
     name: "ObjectiveForm",
     data() {
         return {
+            templateId: null,
             formData: {
-                templateId: null,
+               
                 objective: "",
                 user_email: "",
             },

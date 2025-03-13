@@ -164,12 +164,7 @@ const routes = [
                 component: () => import("../pages/Resume/ExperienceForm.vue"), // Lazy-loaded
                 meta: { requiresAuth: true },
             },
-            {
-                path: "objective",
-               
-                component: () => import("../pages/Resume/ObjectiveForm.vue"), // Lazy-loaded
-                meta: { requiresAuth: true },
-            },
+            
             {
                 path: "finalize",
                
@@ -197,6 +192,12 @@ const routes = [
             {
                 path: "payment",
                 component: () => import("../Pages/PremiumCV/Payment.vue"),
+
+                meta: { requiresAuth: true },
+            },
+            {
+                path: "confirm-order",
+                component: () => import("../Pages/PremiumCV/confirmOrder.vue"),
 
                 meta: { requiresAuth: true },
             },

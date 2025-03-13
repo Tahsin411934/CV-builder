@@ -1,170 +1,238 @@
+<script setup>
+import { ref, onMounted } from "vue";
+import axios from "axios";
+import { useRouter } from "vue-router"; // Import useRouter for navigation
+
+const router = useRouter(); // Initialize the router
+
+// Form State
+const user_email = ref("");
+const method = ref("");
+const transaction_number = ref("");
+const upload_ss = ref(null);
+const loading = ref(false);
+const message = ref("");
+const error = ref("");
+const paymentSubmitted = ref(false); // Track payment submission status
+
+// Payment Methods with Icons
+const paymentMethods = [
+    { name: "Bkash", icon: "/payment/bikas.webp" }, // Path to Bkash icon
+    { name: "Nagad", icon: "/payment/nagad.jpg" }, // Path to Nagad icon
+    { name: "Rocket", icon: "/payment/rocket.png" }, // Path to Rocket icon
+    { name: "Upay", icon: "/payment/upai.png" }, // Path to Card icon
+];
+
+// Handle File Upload
+const handleFileUpload = (event) => {
+    const file = event.target.files[0];
+    if (file) {
+        upload_ss.value = file;
+    }
+};
+
+// Submit Payment
+const submitPayment = async () => {
+    error.value = "";
+    message.value = "";
+    loading.value = true;
+
+    if (
+        !user_email.value ||
+        !method.value ||
+        !transaction_number.value ||
+        !upload_ss.value
+    ) {
+        error.value = "Please fill all fields";
+        loading.value = false;
+        return;
+    }
+
+    try {
+        const formData = new FormData();
+        formData.append("user_email", user_email.value);
+        formData.append("method", method.value);
+        formData.append("transaction_number", transaction_number.value);
+        formData.append("upload_ss", upload_ss.value);
+
+        const response = await axios.post("/api/payments", formData, {
+            headers: {
+                "Content-Type": "multipart/form-data",
+            },
+        });
+
+        message.value = "Payment submitted successfully!";
+        paymentSubmitted.value = true; // Update paymentSubmitted status
+        localStorage.setItem("paymentSubmitted", "true"); // Store payment status in localStorage
+
+        // Reset form fields
+        user_email.value = "";
+        method.value = "";
+        transaction_number.value = "";
+        upload_ss.value = null;
+
+        // Redirect to the Confirm Order route after successful payment
+        const templateId = router.currentRoute.value.params.templateId; // Get templateId from the current route
+        router.push(`/premiumcv/${templateId}/finalize`); // Navigate to the Confirm Order route
+    } catch (err) {
+        error.value = "Failed to process payment. Try again.";
+    } finally {
+        loading.value = false;
+    }
+};
+
+// Retrieve user email and payment status from local storage when the component is mounted
+onMounted(() => {
+    const user = JSON.parse(localStorage.getItem("user"));
+    if (user && user.email) {
+        user_email.value = user.email;
+    }
+
+    // Check if payment was previously submitted
+    const paymentStatus = localStorage.getItem("paymentSubmitted");
+    if (paymentStatus === "true") {
+        paymentSubmitted.value = true;
+    }
+});
+</script>
+
 <template>
-    <div>
-        <!-- Loader Overlay -->
-        <div
-            v-if="loading"
-            class="loader-overlay position-fixed w-100 h-100 d-flex justify-content-center align-items-center"
-        >
-            <div class="loader-content text-center bg-white p-5 rounded shadow">
-                <h3 class="loader-message fw-bold mb-4">Loading...</h3>
-                <div class="loader spinner-border text-primary" role="status">
-                    <span class="visually-hidden">Loading...</span>
-                </div>
-                <div class="loader-details mt-4">
-                    <h5 class="text-muted">40+ professional CV designs</h5>
-                    <h5 class="text-muted">100,000+ pre-written phrases</h5>
-                    <h5 class="text-muted">15,000+ job titles</h5>
-                    <h5 class="text-muted">9+ template colour options</h5>
-                </div>
+    <div
+        class="container d-flex justify-content-center align-items-center min-vh-100"
+    >
+        <div class="card p-4" style="width: 100%; max-width: 500px">
+            <h2 class="text-center mb-4 fw-bold">Premium CV Payment</h2>
+
+            <!-- Success Message -->
+            <div v-if="message" class="alert alert-success text-center">
+                {{ message }}
             </div>
-        </div>
 
-        <!-- Main Content -->
-        <div v-if="!loading" class="container mx-auto">
-            <div class="row align-items-center">
-                <!-- Left Section -->
-                <div class="col-md-6 rounded p-4">
-                    <div
-                        class="h-100 d-flex flex-column justify-content-center"
-                    >
-                        <p class="fw-semibold fs-4 mb-2 text-custom">
-                            Fast. Easy. Effective.
-                        </p>
-                        <h1 class="font-weight-bold">
-                            The Best CV Maker Online.
-                        </h1>
-                        <p class="mt-3 text-muted">
-                            We provide cutting-edge design solutions to bring
-                            your ideas to life. From concept to creation, we're
-                            here to innovate and inspire.
-                        </p>
-                        <div class="d-flex gap-2">
-                            <router-link
-                                :to="`/premiumcv/${templateId}/objective`"
-                                class="btn btn-warning rounded-5 w-50 btn-lg mt-4"
-                            >
-                                Create Your CV
-                            </router-link>
+            <!-- Error Message -->
+            <div v-if="error" class="alert alert-danger text-center">
+                {{ error }}
+            </div>
 
-                            <router-link
-                                to="/resume/objective"
-                                class="btn border border-secondary rounded-5 w-50 btn-lg mt-4"
-                            >
-                                Upgrade CV
-                            </router-link>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Right Section -->
-                <div class="col-md-6 text-center bg-custom my-3 shadow">
-                    <!-- Dynamic Image -->
-                    <img
-                        :src="template.image || '/hero-image.avif'"
-                        alt="Creative Design"
-                        class="img-fluid rounded"
-                        width="430"
-                        height="200"
+            <form @submit.prevent="submitPayment">
+                <!-- Email (Hidden) -->
+                <div class="mb-3 d-none">
+                    <label for="user_email" class="form-label">Email</label>
+                    <input
+                        type="email"
+                        v-model="user_email"
+                        class="form-control"
+                        id="user_email"
+                        required
                     />
                 </div>
+
+                <!-- Payment Method -->
+                <div class="mb-3">
+                    <label class="form-label">Payment Method</label>
+                    <div class="d-flex flex-wrap gap-2">
+                        <div
+                            v-for="pm in paymentMethods"
+                            :key="pm.name"
+                            class="flex-grow-1 text-center p-3 border rounded cursor-pointer"
+                            :class="{
+                                'bg-primary text-white': method === pm.name,
+                            }"
+                            @click="method = pm.name"
+                        >
+                            <img
+                                :src="pm.icon"
+                                :alt="pm.name"
+                                class="img-fluid mb-2"
+                                style="width: 40px; height: 40px"
+                            />
+                            <div>{{ pm.name }}</div>
+                        </div>
+                    </div>
+                    <input type="hidden" v-model="method" required />
+                </div>
+
+                <!-- Transaction Number -->
+                <div class="mb-3">
+                    <label for="transaction_number" class="form-label"
+                        >Transaction Number</label
+                    >
+                    <input
+                        type="text"
+                        v-model="transaction_number"
+                        class="form-control"
+                        id="transaction_number"
+                        required
+                    />
+                </div>
+
+                <!-- Upload Screenshot -->
+                <div class="mb-4">
+                    <label for="upload_ss" class="form-label"
+                        >Upload Screenshot</label
+                    >
+                    <input
+                        type="file"
+                        @change="handleFileUpload"
+                        accept="image/*"
+                        class="form-control"
+                        id="upload_ss"
+                        required
+                    />
+                </div>
+
+                <!-- Submit Button -->
+                <button
+                    type="submit"
+                    class="btn btn-primary w-100 py-2"
+                    :disabled="loading"
+                >
+                    {{ loading ? "Processing..." : "Submit Payment" }}
+                </button>
+            </form>
+        </div>
+        <div class="card p-4" style="width: 100%; max-width: 500px">
+            <div class="mb-3">
+                <p class="text-muted text-center mb-4">
+                    Use one of the following accounts to send your payment.
+                </p>
+                <div v-for="pm in paymentMethods" :key="pm.name" class="mb-3">
+                    <div class="d-flex align-items-right gap-2">
+                        <img
+                            :src="pm.icon"
+                            :alt="pm.name"
+                            class="img-fluid"
+                            style="width: 30px; height: 30px"
+                        />
+                        <strong>{{ pm.name }}</strong>
+                    </div>
+                    <div class="mt-2">
+                        <span class="text-muted">Account Number:</span>
+                        <span class="fw-bold">01XXXXXXXXX</span>
+                        <!-- Replace with the user's account number -->
+                    </div>
+                </div>
             </div>
-            <Gideline />
         </div>
     </div>
 </template>
 
-<script lang="ts">
-export default {
-    data() {
-        return {
-            templateId: null,
-            template: {
-                imageUrl: "", // Add imageUrl to the template object
-            },
-            loading: true, // Add loading state
-        };
-    },
-    mounted() {
-        // Access the templateId from the route
-        this.templateId = this.$route.params.templateId;
-
-        // Fetch template data based on templateId
-        this.fetchTemplate();
-    },
-    methods: {
-        async fetchTemplate() {
-            try {
-                // Fetch template data from the API
-                const response = await fetch(
-                    `/api/cv-templates/${this.templateId}`
-                );
-
-                // Check if the response is OK (status code 200-299)
-                if (!response.ok) {
-                    throw new Error(`HTTP error! Status: ${response.status}`);
-                }
-
-                // Check if the response is JSON
-                const contentType = response.headers.get("content-type");
-                if (!contentType || !contentType.includes("application/json")) {
-                    // If the response is not JSON, log the raw response text
-                    const text = await response.text();
-                    console.error(
-                        "Response is not JSON. Actual response:",
-                        text
-                    );
-                    throw new Error("Response is not JSON");
-                }
-
-                // Parse the JSON data
-                const data = await response.json();
-                this.template = {
-                    ...data,
-                    imageUrl: data.imageUrl || "/hero-image.avif",
-                }; // Set imageUrl dynamically
-                console.log("Template data:", this.template);
-            } catch (error) {
-                console.error("Error fetching template:", error);
-            } finally {
-                this.loading = false; // Set loading to false after data is fetched
-            }
-        },
-    },
-};
-</script>
-
 <style scoped>
-.bg-custom {
-    background: #f9faff;
+/* Custom Styles */
+.card {
+    border: none;
+    border-radius: 10px;
 }
 
-.text-custom {
-    color: #050748;
+.cursor-pointer {
+    cursor: pointer;
 }
 
-/* Loader Overlay Styles */
-.loader-overlay {
-    background-color: rgba(
-        255,
-        255,
-        255,
-        0.9
-    ); /* Semi-transparent white background */
-    z-index: 1050; /* Ensure it's above other content */
+.alert {
+    margin-bottom: 1rem;
 }
 
-.loader-content {
-    max-width: 500px;
-    width: 100%;
-}
-
-.loader-message {
-    font-size: 1.5rem;
-    color: #050748;
-}
-
-.loader-details h5 {
-    font-size: 1rem;
-    margin: 0.5rem 0;
+.img-fluid {
+    max-width: 100%;
+    height: auto;
 }
 </style>
