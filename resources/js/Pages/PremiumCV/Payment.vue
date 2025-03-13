@@ -61,7 +61,8 @@ const submitPayment = async () => {
                 "Content-Type": "multipart/form-data",
             },
         });
-
+        const submittedPayment = response.data;
+        
         message.value = "Payment submitted successfully!";
         paymentSubmitted.value = true; // Update paymentSubmitted status
         localStorage.setItem("paymentSubmitted", "true"); // Store payment status in localStorage
@@ -74,7 +75,7 @@ const submitPayment = async () => {
 
         // Redirect to the Confirm Order route after successful payment
         const templateId = route.params.id; // Get templateId from the current route
-        router.push(`/premiumcv/${templateId}/confirm-order`); // Navigate to the Confirm Order route
+        router.push(`/premiumcv/${templateId}/confirm-order/${submittedPayment.id}`); // Navigate to the Confirm Order route
     } catch (err) {
         error.value = "Failed to process payment. Try again.";
     } finally {

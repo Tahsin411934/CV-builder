@@ -196,7 +196,7 @@ const routes = [
                 meta: { requiresAuth: true },
             },
             {
-                path: "confirm-order",
+                path: "confirm-order/:paymentId",
                 component: () => import("../Pages/PremiumCV/confirmOrder.vue"),
 
                 meta: { requiresAuth: true },
