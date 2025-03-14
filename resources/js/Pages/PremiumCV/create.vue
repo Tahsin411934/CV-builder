@@ -58,10 +58,10 @@
                             </router-link>
 
                             <router-link
-                                to="/resume/objective"
+                                to="/premiumcv/pdf-upload"
                                 class="btn border border-secondary rounded-5 w-50 btn-lg mt-4"
                             >
-                                Upgrade CV
+                            Upload Exiting File
                             </router-link>
                         </div>
                     </div>

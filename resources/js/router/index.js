@@ -40,6 +40,12 @@ const routes = [
         meta: { requiresAuth: true },
     },
     {
+        path: "/premiumcv/pdf-upload",
+        name: "pdfUpload",
+        component: () => import("../Pages/PremiumCV/pdfUpload.vue"), // Lazy-loaded
+        meta: { requiresAuth: true },
+    },
+    {
         path: "/premiumcv/overview",
         name: "premiumcvOverview",
         component: () => import("../Pages/PremiumCV/overview.vue"), // Lazy-loaded
@@ -169,6 +175,12 @@ const routes = [
                 path: "finalize",
                
                 component: () => import("../Pages/PremiumCV/Summary.vue"), // Lazy-loaded
+                meta: { requiresAuth: true },
+            },
+            {
+                path: "instruction",
+               
+                component: () => import("../Pages/PremiumCV/Instruction.vue"), // Lazy-loaded
                 meta: { requiresAuth: true },
             },
             {

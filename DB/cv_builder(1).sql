@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Mar 13, 2025 at 10:02 PM
+-- Generation Time: Mar 14, 2025 at 05:44 PM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -74,7 +74,8 @@ INSERT INTO `educations` (`id`, `name_of_institute`, `name_of_exam`, `institute`
 (62, 'Chittagong Contonment public', 'SSC', 'gggdd', 'ggg', 4.01, 'pyxumerid@mailinator.com'),
 (66, 'test colloage', 'SSC', 'sc', 'ctg', 5, 'gytyt@mailinator.com'),
 (67, 'Premier University, Chittagong', 'BSc', 'Computer Science', NULL, 3.67, 'admin@gmail.com'),
-(68, 'Autem cupiditate eli', 'MSc', 'Exercitationem volup', 'Molestiae omnis esse', 77, 'cusu@mailinator.com');
+(68, 'Autem cupiditate eli', 'MSc', 'Exercitationem volup', 'Molestiae omnis esse', 77, 'cusu@mailinator.com'),
+(69, 'Chittagong University', 'BSc', 'CSE', NULL, 3.5, 'cusu@mailinator.com');
 
 -- --------------------------------------------------------
 
@@ -104,7 +105,8 @@ INSERT INTO `experience` (`id`, `job_title`, `employer`, `start_date`, `end_date
 (11, 'Fronten Deveplopment', 'AFT Soft & Limited', '2025-01-01', '2025-01-12', 0, 'As a Frontend Developer at AFT Soft, I was responsible for designing and implementing user interfaces that ensured a seamless and engaging user experience. My role included developing responsive and visually appealing web applications using modern frontend technologies, including React.js, Tailwind CSS, and JavaScript.', 'admin@gmail.com'),
 (13, 'web', 'aft', '2025-01-13', NULL, 1, 'testing', 'gytyt@mailinator.com'),
 (14, 'Frontend Developer', 'Bangladeshi Software Limited', '2024-01-15', '2025-09-30', 0, 'As a Frontend Developer at Bangladeshi Software Limited, I was responsible for designing and implementing user interfaces that ensured a seamless and engaging user experience. My role included developing responsive and visually appealing web applications using modern frontend technologies, including React.js, Tailwind CSS, and JavaScript.', 'admin@gmail.com'),
-(15, 'Eos id dolor ex cum', 'Temporibus praesenti', '1999-12-25', '2002-10-23', 1, 'Numquam eligendi id', 'cusu@mailinator.com');
+(15, 'Eos id dolor ex cum', 'Temporibus praesenti', '1999-12-25', '2002-10-23', 1, 'Numquam eligendi id', 'cusu@mailinator.com'),
+(16, 'Frontend Development', 'Bangladeshi Software Limited', '2024-03-01', '2002-10-23', 1, 'Here i am working as a frontend development since 1 yeras.', 'cusu@mailinator.com');
 
 -- --------------------------------------------------------
 
@@ -159,6 +161,27 @@ INSERT INTO `headings` (`id`, `image`, `first_name`, `surname`, `profession`, `c
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `instructions`
+--
+
+CREATE TABLE `instructions` (
+  `id` int(11) NOT NULL,
+  `instruction` varchar(255) NOT NULL,
+  `user_email` varchar(255) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `instructions`
+--
+
+INSERT INTO `instructions` (`id`, `instruction`, `user_email`) VALUES
+(1, 'gfsdgsdgsd', 'cusu@mailinator.com'),
+(2, 'Please follow the steps carefully to complete the setup.', 'testudser@example.com'),
+(3, 'ssssPlease follow thedsfafc dddsteps carefully to complete thsadffffffffffffffffffe setup.', 'testudsedr@example.com');
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `language_proficiency`
 --
 
@@ -181,7 +204,9 @@ INSERT INTO `language_proficiency` (`id`, `Language`, `Proficiency`, `user_email
 (5, 'bangla', 'Native', 'admin@gmail.com'),
 (6, 'Bangla', 'Native', 'gytyt@mailinator.com'),
 (8, 'English', 'Intermediate', 'gytyt@mailinator.com'),
-(9, 'Id eum enim mollit e', 'Advanced', 'cusu@mailinator.com');
+(9, 'Id eum enim mollit e', 'Advanced', 'cusu@mailinator.com'),
+(10, 'Bangla', 'Native', 'cusu@mailinator.com'),
+(11, 'English', 'Intermediate', 'cusu@mailinator.com');
 
 -- --------------------------------------------------------
 
@@ -229,7 +254,7 @@ INSERT INTO `objective` (`id`, `objective`, `user_email`) VALUES
 (3, 'Qui at incididunt no', 'wonojyvo@mailinator.com'),
 (4, 'As a passionate and detail-oriented web developer, I am eager to apply my expertise in front-end and back-end technologies to create dynamic, user-friendly websites and applications. With experience in HTML, CSS, JavaScript, and frameworks like React and Node.js, I am dedicated to delivering high-quality, responsive solutions. updated', 'admin@gmail.com'),
 (5, 'hello this is test', 'gytyt@mailinator.com'),
-(6, 'hello', 'cusu@mailinator.com');
+(6, 'Results-driven web developer with 5+ years of experience in designing, developing, and maintaining responsive, user-friendly websites and web applications. Proficient in front-end and back-end technologies, including HTML, CSS, JavaScript, React, Node.js, and PHP, with a strong focus on delivering high-quality, scalable solutions.', 'cusu@mailinator.com');
 
 -- --------------------------------------------------------
 
@@ -284,7 +309,16 @@ INSERT INTO `payments` (`id`, `user_email`, `method`, `transaction_number`, `upl
 (17, 'cusu@mailinator.com', 'Bkash', 'dfasfa', 'uploads/VLgfkzuGlpapHxxJMsY6A6fhObkpU1C7cLGtokZv.jpg', '2025-03-13 01:59:41', '2025-03-13 01:59:41', NULL),
 (18, 'cusu@mailinator.com', 'Nagad', 'dsafa', 'uploads/TxvLVSXts4lPQBithM5uzH8k4EZ3B7GOqR5IZt7C.jpg', '2025-03-13 02:00:01', '2025-03-13 02:00:01', NULL),
 (19, 'cusu@mailinator.com', 'Rocket', 'fdafda', 'uploads/WgzvQ8u4QkKbSo29aOW1uuJLmCAklpw9ZKkDYlJE.jpg', '2025-03-13 02:02:16', '2025-03-13 02:02:16', NULL),
-(20, 'cusu@mailinator.com', 'Bkash', 'sdafaf', 'uploads/V9gJLbFikddo0KuBTBDSoOdGL1q46ymnACznoBku.jpg', '2025-03-13 03:00:40', '2025-03-13 03:00:40', 'no');
+(20, 'cusu@mailinator.com', 'Bkash', 'sdafaf', 'uploads/V9gJLbFikddo0KuBTBDSoOdGL1q46ymnACznoBku.jpg', '2025-03-13 03:00:40', '2025-03-13 03:00:40', 'no'),
+(21, 'cusu@mailinator.com', 'Upay', 'jhfgjgj', 'uploads/Yy2nVJymeqpZs1FjykQspHOe2Rqr4uHOQeHzNcKv.jpg', '2025-03-13 16:48:52', '2025-03-13 16:48:52', 'no'),
+(22, 'cusu@mailinator.com', 'Bkash', 'jhfg', 'uploads/8YO8zsnxClFlS8SplXgTYcSNkUPQbdb6ii4cI17Y.png', '2025-03-13 16:50:05', '2025-03-13 16:50:05', 'no'),
+(23, 'cusu@mailinator.com', 'Rocket', 'fdasfasd', 'uploads/3hc9hHYFhdja3X1AHk2C45woXmk3TfYkTbi7uOe4.jpg', '2025-03-13 16:50:39', '2025-03-13 16:50:39', 'no'),
+(24, 'cusu@mailinator.com', 'Nagad', 'fasfa', 'uploads/WNfGp8tFa3j3hJvCuHahPTogMbhe8e4t0FMgpGur.jpg', '2025-03-13 16:51:20', '2025-03-13 16:51:20', 'no'),
+(25, 'cusu@mailinator.com', 'Bkash', 'czxvczxcvzxv', 'uploads/fUK0pSoo8vQ9CrkiBM1PbQE8UdIvUMz77sJmRvKs.jpg', '2025-03-14 03:59:46', '2025-03-14 03:59:46', 'no'),
+(26, 'cusu@mailinator.com', 'Bkash', 'dsafsf', 'uploads/ARkhUS1NojrG3SfjwxrYPXwylXADL9Gl7MKdwzwL.png', '2025-03-14 04:01:41', '2025-03-14 04:01:41', 'no'),
+(27, 'cusu@mailinator.com', 'Bkash', 'fdsa', 'uploads/k1ZytopTcfVYxiLbhnBfzWwrj0QwMzwvAEtS5Rk5.jpg', '2025-03-14 04:04:04', '2025-03-14 04:04:04', 'no'),
+(28, 'cusu@mailinator.com', 'Nagad', 'fgtfdgtsg', 'uploads/iopzHzlsouN8TVx8fFWplKcRxU0zEOFtIjlUqVFz.png', '2025-03-14 09:02:31', '2025-03-14 09:02:31', 'no'),
+(29, 'cusu@mailinator.com', 'Nagad', '725', 'uploads/66aagwuxy7ylhi1J4lzLtIXDyC4o2kZAOPk6v1C7.jpg', '2025-03-14 09:05:46', '2025-03-14 09:05:46', 'no');
 
 -- --------------------------------------------------------
 
@@ -410,7 +444,7 @@ INSERT INTO `skills` (`id`, `hard_skills`, `soft_skills`, `user_email`) VALUES
 (2, 'React, Laravel, JavaScript', 'Teamwork, Communication', 'user1@example.com'),
 (3, 'JavaScript, React.js, Node.js, Express.js, MongoDB, RESTful APIs, GraphQL, Redux, Context API, TypeScript, Tailwind CSS, Material-UI, Bootstrap, Git, Docker, Webpack, Babel, JSON, JWT Authentication, Testing (Jest, Mocha, Chai), CI/CD, Agile Development, Database Design, Cloud Deployment (AWS, Heroku, Vercel).', 'Communication, Problem-solving, Teamwork, Adaptability, Time Management, Attention to Detail, Critical Thinking, Creativity, Collaboration, Self-motivation, Conflict Resolution, Empathy, Learning Agility, Patience, Leadership.', 'admin@gmail.com'),
 (4, 'kiso pari na, khali phone tipi', 'lokdjfla, jff', 'gytyt@mailinator.com'),
-(5, 'Hic consectetur temp', 'Maiores dolor exerci', 'cusu@mailinator.com');
+(5, 'CI/CD Pipelines (Jenkins, GitHub Actions), Cloud Platforms (AWS, Azure, Google Cloud), Containerization (Docker, Kubernetes)', 'HTML5, CSS3, JavaScript (ES6+),Responsive Web Design (RWD),Front-End Frameworks (React.js, Angular, Vue.js),CSS Preprocessors (SASS, LESS)', 'cusu@mailinator.com');
 
 -- --------------------------------------------------------
 
@@ -464,7 +498,7 @@ INSERT INTO `test` (`id`, `name`, `email`, `created_at`, `updated_at`, `city`, `
 (25, 'Lee Hoffman', 'halogi@mailinator.com', '2025-01-12 00:03:50', '2025-01-12 00:03:50', 'Est modi asperiores', 'Doloribus quibusdam', 'Sint obcaecati aut', 'Duis expedita dolor', '+1 (111) 193-1713', 'images/128o1t7vx29BEZCNGjHwiKesX4H4vX6M1eJaZcHD.jpg'),
 (26, 'Phoebe Dickson', 'pyxumerid@mailinator.com', '2025-01-12 08:51:17', '2025-01-12 08:51:17', 'Quia sed exercitatio', 'Est in ea eaque vel', 'Dolor et sequi quia', 'Repudiandae velit d', '+1 (295) 685-5292', 'images/I3v11mS76k8OOyQSnZbqxEH2q3ti2mtvRdF7DyVi.jpg'),
 (27, 'test karim', 'gytyt@mailinator.com', '2025-01-13 21:23:26', '2025-01-13 21:23:41', 'ctg', '4423', 'web', 'bd', '43434', 'images/wrc7i0IsNCpiGTqtPNy6h66uFgrJoDbDlYXhHRLI.jpg'),
-(28, 'Piper Stout', 'cusu@mailinator.com', '2025-03-12 01:33:32', '2025-03-12 02:25:41', 'Quas saepe placeat', 'Numquam est ex dolor', 'Irure amet dolore e', 'Explicabo Est cum e', '+1 (586) 672-6886', 'images/vZKHVpMxUQXtI81bfqdzbuW67hkoK2TwYihwrICG.jpg');
+(28, 'Piper Stout', 'cusu@mailinator.com', '2025-03-12 01:33:32', '2025-03-14 04:43:41', 'Chittagong', '4242', 'Web Development', 'Bangladesh', '+1 (586) 672-6886', 'images/vZKHVpMxUQXtI81bfqdzbuW67hkoK2TwYihwrICG.jpg');
 
 -- --------------------------------------------------------
 
@@ -544,6 +578,12 @@ ALTER TABLE `failed_jobs`
 ALTER TABLE `headings`
   ADD PRIMARY KEY (`id`),
   ADD UNIQUE KEY `headings_email_unique` (`email`);
+
+--
+-- Indexes for table `instructions`
+--
+ALTER TABLE `instructions`
+  ADD PRIMARY KEY (`id`);
 
 --
 -- Indexes for table `language_proficiency`
@@ -636,13 +676,13 @@ ALTER TABLE `cv_templates`
 -- AUTO_INCREMENT for table `educations`
 --
 ALTER TABLE `educations`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=69;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=70;
 
 --
 -- AUTO_INCREMENT for table `experience`
 --
 ALTER TABLE `experience`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=16;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=17;
 
 --
 -- AUTO_INCREMENT for table `failed_jobs`
@@ -657,10 +697,16 @@ ALTER TABLE `headings`
   MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
 
 --
+-- AUTO_INCREMENT for table `instructions`
+--
+ALTER TABLE `instructions`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+
+--
 -- AUTO_INCREMENT for table `language_proficiency`
 --
 ALTER TABLE `language_proficiency`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
 
 --
 -- AUTO_INCREMENT for table `migrations`
@@ -678,7 +724,7 @@ ALTER TABLE `objective`
 -- AUTO_INCREMENT for table `payments`
 --
 ALTER TABLE `payments`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=21;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=30;
 
 --
 -- AUTO_INCREMENT for table `personal_access_tokens`

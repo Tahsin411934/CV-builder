@@ -54,7 +54,7 @@
                   { label: "Language Proficiency", route: `/premiumcv/${this.templateId}/language-proficiency` },
                   { label: "Project", route: `/premiumcv/${this.templateId}/project` },
                   { label: "Summary", route: `/premiumcv/${this.templateId}/finalize` },
-                  { label: "Instruction", route: `/premiumcv/${this.templateId}/project` },
+                  { label: "Instruction", route: `/premiumcv/${this.templateId}/instruction` },
                   { label: "Payment", route: `/premiumcv/${this.templateId}/payment` },
                   { label: "Confirm Order", route: `/premiumcv/${this.templateId}/confirm-order` },
               ];
@@ -62,10 +62,7 @@
       },
       methods: {
           navigateToStep(route) {
-              if (route.includes('finalize') && !this.paymentSubmitted) {
-                  alert('Please complete the payment first.');
-                  return;
-              }
+             
               this.$router.push(route);
           },
           isActiveRoute(route) {

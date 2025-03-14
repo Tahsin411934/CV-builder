@@ -8,6 +8,7 @@ use App\Http\Controllers\TestController;
 use App\Http\Controllers\EducationController;
 use App\Http\Controllers\ExperienceController;
 use App\Http\Controllers\ObjectiveController;
+use App\Http\Controllers\InstructionController;
 use App\Http\Controllers\SkillController;
 use App\Http\Controllers\LanguageProficiencyController;
 use App\Http\Controllers\SummaryController;
@@ -48,12 +49,16 @@ Route::prefix('educations')->group(function () {
 });
 
 
-
+Route::get('/instructions/{id}/download-pdf', [InstructionController::class, 'downloadPdf'])->name('instruction.downloadPdf');
 Route::resource('experiences', ExperienceController::class);
 Route::get('/experience/{email}', [ExperienceController::class, 'getByEmail']);
 
 Route::resource('objectives', ObjectiveController::class);
 Route::get('/objective/{email}', [ObjectiveController::class, 'getByEmail']);
+
+
+Route::resource('instructions', InstructionController::class);
+Route::get('/instruction/{email}', [InstructionController::class, 'getByEmail']);
 
 Route::post('skills', [SkillController::class, 'store']);
 Route::get('/skills/{email}', [SkillController::class, 'getByEmail']);
