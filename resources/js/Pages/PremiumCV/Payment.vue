@@ -75,7 +75,13 @@ const submitPayment = async () => {
 
         // Redirect to the Confirm Order route after successful payment
         const templateId = route.params.id; // Get templateId from the current route
-        router.push(`/premiumcv/${templateId}/confirm-order/${submittedPayment.id}`); // Navigate to the Confirm Order route
+        console.log(templateId);
+        if (templateId) {
+            router.push(`/premiumcv/${templateId}/confirm-order`);
+        } else {
+            router.push(`/confirm-order`);
+        }
+         // Navigate to the Confirm Order route
     } catch (err) {
         error.value = "Failed to process payment. Try again.";
     } finally {
@@ -197,7 +203,7 @@ onMounted(() => {
                 <p class="text-muted text-center mb-4">
                     Use one of the following accounts to send your payment.
                 </p>
-                <div v-for="pm in paymentMethods" :key="pm.name" class="mb-3">
+                <div v-for="pm in paymentMethods" :key="pm.name" class="mb-3 text-center mx-5">
                     <div class="d-flex align-items-right gap-2">
                         <img
                             :src="pm.icon"

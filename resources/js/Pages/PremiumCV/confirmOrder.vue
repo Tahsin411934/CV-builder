@@ -20,13 +20,11 @@ onMounted(async () => {
     // Check local storage for payment submission status
     const storedData = localStorage.getItem("paymentSubmitted");
     userData.value = storedData === "true"; 
-
-    // Get the paymentId from the route parameters
-    const paymentId = route.params.paymentId;
+    const user = JSON.parse(localStorage.getItem("user"));
 
     try {
-        // Fetch payment data using the paymentId from the route
-        const response = await axios.get(`/api/payments/${paymentId}`);
+        // Fetch payment data using the user's email
+        const response = await axios.get(`/api/payments/${user.email}`);
         paymentData.value = response.data; 
     } catch (err) {
         error.value = err.message || "Failed to fetch payment data"; 
@@ -37,38 +35,48 @@ onMounted(async () => {
 </script>
 
 <template>
-    <div class="container mt-5">
-        
-        <span v-if="userData" class="text-success text-center fw-bold"><h3>
-            Payment success
-        </h3> 
-    <p>" Your order has been successfully placed!. Our admin team will review your payment status. Once verified, our team will confirm your order via mobile SMS. If you have any questions, feel free to contact our support team."</p>
-    </span>
-        <span v-else class="text-danger">Please pay first</span>
+    <div class="container mt-5 min-vh-100">
+        <!-- Display success message if payment data is found -->
+        <div v-if="paymentData" class="text-success text-center fw-bold">
+            <h3>Payment Success</h3>
+            <p>Your order has been successfully placed! Our admin team will review your payment status. Once verified, our team will confirm your order via mobile SMS. If you have any questions, feel free to contact our support team.</p>
+        </div>
 
-        <!-- Display fetched payment data -->
+        <!-- Display "No payment data found" or "Please pay first" if no payment data is found -->
+        <div v-else class="text-danger text-center">
+            <h3>No Payment Data Found</h3>
+            <p>Please complete your payment to proceed.</p>
+        </div>
+
+        <!-- Loading state -->
         <div v-if="loading" class="text-center mt-5">
             <div class="spinner-border text-primary" role="status">
                 <span class="visually-hidden">Loading...</span>
             </div>
             <p class="mt-2">Loading payment details...</p>
         </div>
-        <div v-else-if="error" class="alert alert-danger mt-4">
+
+        <!-- Error state -->
+        <!-- <div v-else-if="error" class="alert alert-danger mt-4">
             Error: {{ error }}
-        </div>
-        <div v-else-if="paymentData || userData" class="mt-4">
+        </div> -->
+
+        <!-- Display payment details if payment data is found -->
+        <div v-else-if="paymentData" class="mt-4">
             <h3>Payment Details:</h3>
             <table class="table table-bordered table-striped">
-                <tbody>
+                <thead>
                     <tr>
-                        <th scope="row">ID</th>
-                        <th scope="row">Payment Method</th>
-                        <th scope="row">Transaction Number</th>
-                        <th scope="row">Uploaded Screenshot</th>
-                        <th scope="row">Verification Status</th>
-                        <th scope="row">Order Created at</th>
-                        
+                        <th scope="col">ID</th>
+                        <th scope="col">Payment Method</th>
+                        <th scope="col">Transaction Number</th>
+                        <th scope="col">Uploaded Screenshot</th>
+                        <th scope="col">Verification Status</th>
+                        <th scope="col">Order Created at</th>
+                        <th scope="col">Your Upgrated Cv</th>
                     </tr>
+                </thead>
+                <tbody>
                     <tr>
                         <td>{{ paymentData.id }}</td>
                         <td>{{ paymentData.method }}</td>
@@ -76,21 +84,20 @@ onMounted(async () => {
                         <td>
                             <img :src="paymentData.upload_ss" alt="Screenshot" class="img-fluid" style="max-width: 150px;" />
                         </td>
-                       
-                        
                         <td>{{ paymentData.verify || "Not Verified" }}</td>
                         <td>{{ formatDate(paymentData.created_at) }}</td>
-                
-                        
+                        <td>
+                        <a
+                            :href="`http://127.0.0.1:8000/storage/${paymentData?.updated_cv}`"
+                            v-if="paymentData.updated_cv"
+                        >
+                            Download CV
+                        </a>
+                        <span v-else>Here You found your Upgrated CV</span>
+                    </td>
                     </tr>
-                   
-                   
-                    
                 </tbody>
             </table>
-        </div>
-        <div v-else class="alert alert-warning mt-4">
-            No payment data found.
         </div>
     </div>
 </template>

@@ -64,8 +64,8 @@
             </button>
             <div v-if="showProfileDropdown" class="dropdown-menu show">
               <router-link to="/profile" class="dropdown-item">Profile</router-link>
-              <router-link to="/orders" class="dropdown-item">Orders</router-link>
-              <router-link to="/creation" class="dropdown-item">Creation</router-link>
+              <router-link to="/confirm-order" class="dropdown-item">Orders</router-link>
+              <router-link to="/dashboard" class="dropdown-item">Dashboard</router-link>
               <button @click="logout" class="dropdown-item">Logout</button>
             </div>
           </div>

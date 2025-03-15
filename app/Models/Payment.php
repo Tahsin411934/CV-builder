@@ -12,6 +12,8 @@ protected  $table = 'payments';
         'user_email',
         'method',
         'transaction_number',
-        'upload_ss'
+        'upload_ss',
+        'verify',
+        'updated_cv'
     ];
 }

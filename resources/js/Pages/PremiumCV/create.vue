@@ -56,12 +56,11 @@
                             >
                                 Create Your CV
                             </router-link>
-
                             <router-link
-                                to="/premiumcv/pdf-upload"
+                                :to="`/premiumcv/pdf-upload/${templateId}`"
                                 class="btn border border-secondary rounded-5 w-50 btn-lg mt-4"
                             >
-                            Upload Exiting File
+                                Upload Existing File
                             </router-link>
                         </div>
                     </div>
@@ -94,24 +93,30 @@ export default {
             templateId: null,
 
             template: {
-                imageUrl: "", // Add imageUrl to the template object
+                imageUrl: "", 
             },
 
-            loading: true, // Add loading state
+            loading: true, 
         };
     },
 
     mounted() {
-        // Access the templateId from the route
+        
 
         this.templateId = this.$route.params.templateId;
 
-        // Fetch template data based on templateId
+       
 
         this.fetchTemplate();
     },
 
     methods: {
+
+        // async fetchData(){
+        //     const user = JSON.parse(localStorage.getItem("user"));
+        //     // here fatch ny user.email and preview data or show selected data in selected tamplete
+        //     // and for email will user.email for store
+        // },
         async fetchTemplate() {
             try {
                 // Fetch template data from the API

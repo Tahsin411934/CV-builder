@@ -301,7 +301,7 @@ export default {
                 this.uploadedFileName = ""; // Clear the uploaded file name
                 this.$router.push(
                     this.templateId
-                        ? `/premiumcv/${this.templateId}/heading`
+                        ? `/premiumcv/payment/${this.templateId}`
                         : "/heading"
                 );
             } catch (error) {
@@ -318,7 +318,7 @@ export default {
     },
     mounted() {
         this.userEmail();
-        this.templateId = this.$route.params.id;
+        this.templateId = this.$route.params.templateId;
         console.log(this.templateId);
     },
 };

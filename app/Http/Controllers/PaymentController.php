@@ -40,33 +40,55 @@ class PaymentController extends Controller
         }
     }
 
-    // Show a single payment
-    public function show($id)
-    {
-        $payment = Payment::find($id);
-        if (!$payment) {
-            return response()->json(['message' => 'Payment not found'], 404);
-        }
-        return response()->json($payment);
-    }
+ // Show a single payment
+ public function show($email)
+ {
+     // Fetch the payment record for the given email and verify status
+     $payment = Payment::where('user_email', $email)
+                       ->whereIn('verify', ['yes', 'no']) // Only allow 'yes' or 'no'
+                       ->first();
+ 
+     // Check if the payment exists
+     if (!$payment) {
+         return response()->json(['message' => 'Payment not found or invalid verification status'], 404);
+     }
+ 
+     // Return the payment as a JSON response
+     return response()->json($payment);
+ }
 
     // Update a payment
     public function update(Request $request, $id)
     {
+        // Find the payment
         $payment = Payment::find($id);
         if (!$payment) {
             return response()->json(['message' => 'Payment not found'], 404);
         }
-
-        $request->validate([
-            'user_email' => 'email',
-            'method' => 'in:Bkash,Nagad,Rocket,Card,Bank Transfer',
-            'transaction_number' => 'unique:payments,transaction_number,' . $id,
-            'upload_ss' => 'string',
-        ]);
-
-        $payment->update($request->all());
-
+    
+        // Handle file upload if a file is present in the request
+        if ($request->hasFile('updated_cv')) {
+            $file = $request->file('updated_cv');
+    
+           
+    
+            // Validate the file
+            $request->validate([
+                'updated_cv' => 'file|mimes:pdf,doc,docx|max:2048', // Allow PDF, Word files, max 2MB
+            ]);
+    
+            // Store the file in the public/uploads directory
+            $fileName = time() . '_' . $file->getClientOriginalName(); // Generate a unique file name
+            $filePath = $file->storeAs('uploads', $fileName, 'public'); // Save the file to the "public/uploads" directory
+    
+    
+            // Update the payment with the new file path
+            $payment->updated_cv = $filePath; // Directly update the `updated_cv` field
+        }
+    
+        // Update other fields in the payment
+        $payment->update($request->except('updated_cv')); // Exclude `updated_cv` from the request data
+    
         return response()->json($payment);
     }
 

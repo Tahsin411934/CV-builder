@@ -18,8 +18,10 @@ use App\Http\Controllers\CvTemplateController;
 use App\Http\Controllers\Test1Controller;
 use App\Http\Controllers\PremiumCvController;
 use App\Http\Controllers\PaymentController;
+use App\Http\Controllers\SelectedTemplateController;
 
 Route::apiResource('payments', PaymentController::class);
+Route::post('payments/upload-upgraded-cv/{id}', [PaymentController::class, 'update']);
 
 Route::post('/register', [AuthController::class, 'registration']);
 Route::post('/login', [AuthController::class, 'login']);
@@ -76,6 +78,10 @@ Route::apiResource('cv-templates', CvTemplateController::class);
 Route::put('/update/{id}', [CvTemplateController::class, 'update']);
 // routes/api.php
 
+
+
+Route::apiResource('selected-templates', SelectedTemplateController::class);
+Route::get('/selected-templates/email/{email}', [SelectedTemplateController::class, 'findByEmail']);
 
 Route::apiResource('premium-cvs', PremiumCvController::class);
 

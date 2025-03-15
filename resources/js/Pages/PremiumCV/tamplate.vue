@@ -27,8 +27,8 @@
         >
           <div
             class="template card h-100 position-relative shadow-sm card-hover"
-            :class="{ 'border-primary border-2': selectedTemplate === image.id }"
-            @click="selectTemplate(image.id)"
+            :class="{ 'border-primary border-2': selectedTemplate == image.id }"
+            @click="selectTemplate(image.id, userEmail)"
           >
             <!-- Template Image with Hover Effect -->
             <div
@@ -119,12 +119,10 @@ export default {
       currentPage: 1,
       itemsPerPage: 6, // Number of items per page
       loading: true, // Add loading state
+      userEmail: '', // Store user email
     };
   },
   computed: {
-    selectedImage() {
-      return this.images.find(image => image.id === this.selectedTemplate);
-    },
     totalPages() {
       return Math.ceil(this.images.length / this.itemsPerPage);
     },
@@ -135,6 +133,16 @@ export default {
     },
   },
   methods: {
+    async getSelectedTemplateByEmail(email) {
+      try {
+        const res = await axios.get(`/api/selected-templates/email/${email}`);
+        if (res.data && res.data.tamplate_id) {
+          this.selectedTemplate = res.data.tamplate_id; // Set the selected template ID
+        }
+      } catch (error) {
+        console.error('Error fetching selected template:', error);
+      }
+    },
     async getTemplate() {
       try {
         const res = await axios.get('/api/cv-templates'); // Fetch images from API
@@ -145,10 +153,36 @@ export default {
         this.loading = false; // Set loading to false after data is fetched
       }
     },
-    selectTemplate(templateId) {
-      this.selectedTemplate = templateId;
-      this.$router.push(`/premiumcv/create/${templateId}`);
-    },
+    async selectTemplate(templateId, userEmail) {
+  try {
+    this.loading = true; // Show loading state
+    this.selectedTemplate = templateId;
+
+    // Convert templateId to a string (if it's not already)
+    const templateIdString = String(templateId);
+
+    // Log the payload for debugging
+    console.log('Sending payload:', { tamplate_id: templateIdString, user_email: userEmail });
+
+    // Make the API call to save the selected template
+    await axios.post('/api/selected-templates', { 
+      tamplate_id: templateIdString, // Ensure templateId is sent as a string
+      user_email: userEmail          // Use the exact key expected by the backend
+    });
+
+    // Navigate to the next page
+    this.$router.push(`/premiumcv/create/${templateId}`).catch(err => {
+      if (err.name !== "NavigationDuplicated") {
+        console.error('Navigation error:', err);
+      }
+    });
+  } catch (error) {
+    console.error('Error selecting template:', error);
+    // Optionally, show an error message to the user
+  } finally {
+    this.loading = false; // Hide loading state
+  }
+},
     openModal(imageSrc) {
       this.modalImageSrc = imageSrc;
       this.modal.show();
@@ -176,9 +210,18 @@ export default {
       });
     },
   },
-  mounted() {
+  async mounted() {
     this.modal = new Modal(document.getElementById('imageModal'));
-    this.getTemplate(); // Fetch images when the component is mounted
+
+    // Get user email from local storage
+    const user = JSON.parse(localStorage.getItem('user'));
+    if (user && user.email) {
+      this.userEmail = user.email;
+      await this.getSelectedTemplateByEmail(user.email); // Wait for selected template check
+    }
+
+    // Fetch templates after checking for selected template
+    await this.getTemplate();
   },
 };
 </script>
@@ -201,7 +244,7 @@ export default {
   }
 
   .border-primary {
-    border-color: #007bff !important;
+    border-color: #007bff !important; /* Blue border for selected template */
   }
 
   .image-container {

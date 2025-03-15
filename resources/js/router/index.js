@@ -40,9 +40,15 @@ const routes = [
         meta: { requiresAuth: true },
     },
     {
-        path: "/premiumcv/pdf-upload",
+        path: "/premiumcv/pdf-upload/:templateId",
         name: "pdfUpload",
         component: () => import("../Pages/PremiumCV/pdfUpload.vue"), // Lazy-loaded
+        meta: { requiresAuth: true },
+    },
+    {
+        path: "/premiumcv/payment/:templateId",
+        name: "pdfUploadpayment",
+        component: () => import("../Pages/PremiumCV/Payment.vue"), // Lazy-loaded
         meta: { requiresAuth: true },
     },
     {
@@ -123,8 +129,24 @@ const routes = [
                 name: "PDF",
                 component: () => import("../Pages/Resume/PDF.vue"), // Lazy-loaded
             },
+            
         ],
     },
+    {
+        path: "/confirm-order",
+        name: "confirmOrder",
+        component: () => import("../Pages/PremiumCV/confirmOrder.vue"),
+
+        meta: { requiresAuth: true },
+    },
+    {
+        path: "/cv-details/:email",
+        name: "cv-details",
+        component: () => import("../Pages/dashboard/cv-details.vue"),
+
+        meta: { requiresAuth: true },
+    },
+    
 
     {
         path: "/dashboard",
@@ -136,6 +158,12 @@ const routes = [
                     import(
                         /* webpackChunkName: "overview" */ "../Pages/dashboard/CvTemplateTable.vue"
                     ),
+            },
+            {
+                path: "orders",
+                component: () => import("../Pages/dashboard/Orders/order.vue"),
+        
+                meta: { requiresAuth: true },
             },
         ],
     },
@@ -208,7 +236,7 @@ const routes = [
                 meta: { requiresAuth: true },
             },
             {
-                path: "confirm-order/:paymentId",
+                path: "confirm-order",
                 component: () => import("../Pages/PremiumCV/confirmOrder.vue"),
 
                 meta: { requiresAuth: true },

@@ -1,9 +1,7 @@
 <template>
-  <div class="row justify-content-center w-100">
+  <div class="row justify-content-center ">
     <div class="col-2 bg1-custom">
-      <!-- Display templateId using Vue interpolation -->
-      {{ templateId }}
-      <!-- Pass templateId as a prop to Timeline -->
+      
       <Timeline :templateId="templateId" />
 
     </div>
