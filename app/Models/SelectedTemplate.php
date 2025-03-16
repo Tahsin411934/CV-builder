@@ -11,4 +11,9 @@ class SelectedTemplate extends Model
     protected $table = 'selectedtamplate'; 
     public $timestamps = false;
     protected $fillable = ['tamplate_id', 'user_email']; 
+
+    public function cvTemplate()
+    {
+        return $this->belongsTo(CvTemplate::class, 'tamplate_id','id');
+    }
 }

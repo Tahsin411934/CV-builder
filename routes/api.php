@@ -22,6 +22,7 @@ use App\Http\Controllers\SelectedTemplateController;
 
 Route::apiResource('payments', PaymentController::class);
 Route::post('payments/upload-upgraded-cv/{id}', [PaymentController::class, 'update']);
+Route::get('payments/allByMail/{email}', [PaymentController::class, 'getdataByMail']);
 
 Route::post('/register', [AuthController::class, 'registration']);
 Route::post('/login', [AuthController::class, 'login']);

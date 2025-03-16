@@ -49,14 +49,16 @@
                         </span>
                     </td>
                     <td>
-                        <a
-                            :href="`http://127.0.0.1:8000/storage/${order.updated_cv}`"
-                            v-if="order.updated_cv"
-                        >
-                            Download CV
-                        </a>
-                        <span v-else>No CV</span>
-                    </td>
+                            <a
+                                :href="`http://127.0.0.1:8000/storage/${order.updated_cv}`"
+                                v-if="order.updated_cv"
+                                target="_blank"
+                                download
+                            >
+                                Download CV
+                            </a>
+                            <span class="badge text-dark" v-else>You will find Your Upgraded CV here</span>
+                        </td>
                     <td>
                         <input
                             type="file"

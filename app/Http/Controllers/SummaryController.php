@@ -10,6 +10,8 @@ use App\Models\Skill;
 use App\Models\Experience;
 use App\Models\LanguageProficiency;
 use App\Models\Project;
+use App\Models\SelectedTemplate;
+use App\Models\Instruction;
 use Illuminate\Support\Facades\Auth;
 class SummaryController extends Controller
 {
@@ -18,6 +20,8 @@ class SummaryController extends Controller
        
         // Fetch all data in one go and handle missing values gracefully
         $data = [
+            'tamplete' =>           SelectedTemplate::where('user_email', $email)->with('cvTemplate')->first() ?? null,
+            'instruction'             => Instruction::where('user_email', $email)->first() ?? null,
             'heading'             => Test::where('email', $email)->first() ?? null,
             'objective'           => Objective::where('user_email', $email)->first() ?? null,
             'skills'              => Skill::where('user_email', $email)->first() ?? null,

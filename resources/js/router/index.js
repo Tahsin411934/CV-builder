@@ -140,6 +140,13 @@ const routes = [
         meta: { requiresAuth: true },
     },
     {
+        path: "/myorders",
+        name: "MyOrders",
+        component: () => import("../Pages/PremiumCV/order.vue"),
+
+        meta: { requiresAuth: true },
+    },
+    {
         path: "/cv-details/:email",
         name: "cv-details",
         component: () => import("../Pages/dashboard/cv-details.vue"),

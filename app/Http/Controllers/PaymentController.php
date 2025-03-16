@@ -43,10 +43,28 @@ class PaymentController extends Controller
  // Show a single payment
  public function show($email)
  {
-     // Fetch the payment record for the given email and verify status
+     // Fetch the last payment record for the given email
      $payment = Payment::where('user_email', $email)
-                       ->whereIn('verify', ['yes', 'no']) // Only allow 'yes' or 'no'
+                       ->orderBy('created_at', 'desc') // Order by creation date in descending order
                        ->first();
+ 
+     // Check if the payment exists
+     if (!$payment) {
+         return response()->json(['message' => 'Payment not found or invalid verification status'], 404);
+     }
+ 
+     // Return the payment as a JSON response
+     return response()->json($payment);
+ }
+
+
+ // Show a single payment
+ public function getdataByMail($email)
+ {
+     // Fetch the last payment record for the given email
+     $payment = Payment::where('user_email', $email)
+                       ->orderBy('created_at', 'desc') // Order by creation date in descending order
+                       ->get();
  
      // Check if the payment exists
      if (!$payment) {
