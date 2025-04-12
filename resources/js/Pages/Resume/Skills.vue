@@ -128,7 +128,7 @@ export default {
       if (user && user.email) {
         try {
           const response = await axios.get(
-            `http://127.0.0.1:8000/api/skills/${user.email}`
+            `/api/skills/${user.email}`
           );
           const data = response.data?.data || {};
           this.formData = {
@@ -149,7 +149,7 @@ export default {
       this.loading = true;
       try {
         const response = await axios.post(
-          "http://127.0.0.1:8000/api/skills",
+          "/api/skills",
           this.formData
         );
         this.successMessage = response.data.message;

@@ -44,21 +44,28 @@
                                         .docx</small
                                     >
                                 </div>
-                                <div v-if="pdfFileUrl" class="mb-3 text-center text-danger">
-                                    <label class="form-label"
-                                        >Uploaded File:
-                                    </label>
-                                    <a
-                                        :href="pdfFileUrl"
-                                        target="_blank"
-                                        class="text-danger "
-                                    >
-                                        {{ uploadedFileName }}
-                                    </a>
+                                
+                                <!-- File Name Display Section -->
+                                <div v-if="uploadedFileName" class="mt-3">
+                                    <div class="d-flex justify-content-between align-items-center mb-2">
+                                        <label class="form-label fw-bold">Uploaded File:</label>
+                                        <button 
+                                            type="button" 
+                                            class="btn btn-sm btn-outline-danger"
+                                            @click="removeFile"
+                                        >
+                                            Remove
+                                        </button>
+                                    </div>
+                                    
+                                    <div class="border rounded p-3 bg-light">
+                                        <p class="mb-0">
+                                            <i :class="fileIconClass"></i>
+                                            {{ uploadedFileName }}
+                                        </p>
+                                    </div>
                                 </div>
                             </div>
-
-                            <!-- Display Uploaded File URL -->
 
                             <!-- Instruction Field -->
                             <div class="mb-3">
@@ -74,8 +81,6 @@
                                     required
                                 ></textarea>
                             </div>
-
-                            <!-- Custom File Upload Area -->
 
                             <!-- Email Field (Hidden but populated) -->
                             <div class="mb-3 d-none">
@@ -140,6 +145,7 @@
                                         <button
                                             type="submit"
                                             class="btn btn-warning px-4 rounded-5 btn-lg d-none d-md-block"
+                                            :disabled="loading"
                                         >
                                             <span
                                                 v-if="loading"
@@ -152,6 +158,7 @@
                                         <button
                                             type="submit"
                                             class="btn btn-warning px-4 rounded-5 d-block d-md-none"
+                                            :disabled="loading"
                                         >
                                             <span
                                                 v-if="loading"
@@ -199,14 +206,24 @@ export default {
             formData: {
                 instruction: "",
                 user_email: "",
-                pdf_file: null, // Added for file upload
+                pdf_file: null,
             },
-            pdfFileUrl: null, // Added to store the file URL
-            uploadedFileName: "", // Added to display the uploaded file name
+            uploadedFileName: "",
+            fileType: "",
             successMessage: "",
             errorMessage: "",
             loading: false,
         };
+    },
+    computed: {
+        fileIconClass() {
+            if (this.uploadedFileName.endsWith('.pdf')) {
+                return 'bi bi-file-earmark-pdf-fill text-danger';
+            } else if (this.uploadedFileName.endsWith('.doc') || this.uploadedFileName.endsWith('.docx')) {
+                return 'bi bi-file-earmark-word-fill text-primary';
+            }
+            return 'bi bi-file-earmark-fill';
+        }
     },
     methods: {
         async userEmail() {
@@ -218,18 +235,13 @@ export default {
                     );
                     const data = response.data.data;
 
-                    // Update form data with the retrieved data
                     this.formData = {
                         instruction: data.instruction || "",
                         user_email: data.user_email || user.email,
                     };
 
-                    // If a file URL is available, display it
                     if (data.pdf_file_url) {
-                        this.pdfFileUrl = data.pdf_file_url;
-                        this.uploadedFileName = data.pdf_file_url
-                            .split("/")
-                            .pop();
+                        this.uploadedFileName = data.pdf_file_url.split("/").pop();
                     }
                 } catch (error) {
                     this.formData.user_email = user.email;
@@ -244,28 +256,34 @@ export default {
         },
         handleFileUpload(event) {
             const file = event.target.files[0];
-            this.validateAndSetFile(file);
+            this.processFile(file);
         },
         handleDrop(event) {
             const file = event.dataTransfer.files[0];
-            this.validateAndSetFile(file);
+            this.processFile(file);
         },
-        validateAndSetFile(file) {
-            if (
-                file &&
-                (file.type === "application/pdf" ||
-                    file.type === "application/msword" ||
-                    file.type ===
-                        "application/vnd.openxmlformats-officedocument.wordprocessingml.document")
-            ) {
-                this.formData.pdf_file = file;
-                this.uploadedFileName = file.name;
-                this.errorMessage = ""; // Clear any previous error message
-            } else {
+        processFile(file) {
+            if (!file) return;
+
+            const validTypes = [
+                'application/pdf',
+                'application/msword',
+                'application/vnd.openxmlformats-officedocument.wordprocessingml.document'
+            ];
+            
+            if (!validTypes.includes(file.type)) {
                 this.errorMessage = "Please upload a valid PDF or Word file.";
-                this.formData.pdf_file = null;
-                this.uploadedFileName = "";
+                return;
             }
+
+            this.formData.pdf_file = file;
+            this.uploadedFileName = file.name;
+            this.errorMessage = "";
+        },
+        removeFile() {
+            this.formData.pdf_file = null;
+            this.uploadedFileName = "";
+            this.$refs.fileInput.value = '';
         },
         dragOver(event) {
             event.preventDefault();
@@ -297,8 +315,9 @@ export default {
                 this.successMessage = response.data.message;
                 this.formData.instruction = "";
                 this.formData.pdf_file = null;
-                this.pdfFileUrl = null; // Clear the file URL after submission
-                this.uploadedFileName = ""; // Clear the uploaded file name
+                this.uploadedFileName = "";
+                
+                // Navigate to next step
                 this.$router.push(
                     this.templateId
                         ? `/premiumcv/payment/${this.templateId}`
@@ -320,7 +339,7 @@ export default {
         this.userEmail();
         this.templateId = this.$route.params.templateId;
         console.log(this.templateId);
-    },
+    }
 };
 </script>
 
@@ -341,9 +360,18 @@ export default {
 
 .file-upload-area.drag-over {
     background-color: #dee2e6;
+    border: 2px dashed #0d6efd;
 }
 
 .bi-upload {
     font-size: 3rem;
+}
+
+/* File icon colors */
+.bi-file-earmark-pdf-fill {
+    color: #d93a33;
+}
+.bi-file-earmark-word-fill {
+    color: #2b579a;
 }
 </style>

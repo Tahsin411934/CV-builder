@@ -191,7 +191,7 @@ export default {
       if (user && user.email) {
         try {
           const response = await axios.get(
-            `http://127.0.0.1:8000/api/experience/${user.email}`
+            `/api/experience/${user.email}`
           );
           const data = response.data?.data || [];
           this.experiences = data.map((item) => ({
@@ -225,7 +225,7 @@ export default {
         console.log("Submitting data:", plainData);
 
         const response = await axios.post(
-          "http://127.0.0.1:8000/api/experiences",
+          "/api/experiences",
           { experiences: plainData },
           { headers: { "Content-Type": "application/json" } }
         );
@@ -248,7 +248,7 @@ export default {
     async deleteExperience(id, index) {
       try {
         const response = await axios.delete(
-          `http://127.0.0.1:8000/api/experiences/${id}`
+          `/api/experiences/${id}`
         );
 
         if (response.status === 200) {

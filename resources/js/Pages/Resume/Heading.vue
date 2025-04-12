@@ -22,7 +22,7 @@
                             <img
                                 :src="
                                     form.image
-                                        ? `http://127.0.0.1:8000/storage/${form.image}`
+                                        ? `http://127.0.0.1:8000/storage/app/public/${form.image}`
                                         : '/notfound.jpg'
                                 "
                                 style="width: 150px; height: 120px"
@@ -237,7 +237,7 @@ export default {
             if (user && user.email) {
                 try {
                     const response = await axios.get(
-                        `http://127.0.0.1:8000/api/headings/${user.email}`
+                        `/api/headings/${user.email}`
                     );
                     const data = response.data?.data || {};
                     console.log(data);
@@ -296,7 +296,7 @@ export default {
 
             try {
                 const response = await axios.post(
-                    "http://127.0.0.1:8000/api/test",
+                    "/api/test",
                     formData,
                     {
                         headers: {

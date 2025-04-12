@@ -189,7 +189,7 @@ export default {
       if (user && user.email) {
         try {
           const response = await axios.get(
-            `http://127.0.0.1:8000/api/educations/user/${user.email}`
+            `/api/educations/user/${user.email}`
           );
           const data = response.data?.data || [];
           this.educations = data.map((item) => ({
@@ -221,7 +221,7 @@ export default {
         console.log("Submitting data:", plainData);
 
         const response = await axios.post(
-          "http://127.0.0.1:8000/api/educations/store",
+          "/api/educations/store",
           { educations: plainData },
           { headers: { "Content-Type": "application/json" } }
         );
@@ -244,7 +244,7 @@ export default {
     async deleteEducation(id, index) {
       try {
         const response = await axios.delete(
-          `http://127.0.0.1:8000/api/educations/delete/${id}`
+          `/api/educations/delete/${id}`
         );
 
         if (response.status === 200) {

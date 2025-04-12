@@ -228,7 +228,7 @@ export default {
       if (user && user.email) {
         try {
           const response = await axios.get(
-            `http://127.0.0.1:8000/api/summary/${user.email}`
+            `/api/summary/${user.email}`
           );
           this.info = response.data?.data || {};
         } catch (error) {

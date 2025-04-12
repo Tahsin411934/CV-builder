@@ -110,7 +110,7 @@
               placeholder="Enter server-side repository URL"
             />
           </div>
-          <div class="col-md-6">
+          <div class="col-md-6 d-none">
             <label class="form-label">User Email</label>
             <input
               v-model="project.user_email"
@@ -202,7 +202,7 @@ export default {
       if (user && user.email) {
         try {
           const response = await axios.get(
-            `http://127.0.0.1:8000/api/project/${user.email}`
+            `/api/project/${user.email}`
           );
           this.projects = response.data.data || [];
         } catch (error) {
@@ -226,7 +226,7 @@ export default {
       this.loading = true;
       try {
         const response = await axios.post(
-          "http://127.0.0.1:8000/api/projects",
+          "/api/projects",
           { projects: this.projects },
           { headers: { "Content-Type": "application/json" } }
         );
@@ -246,7 +246,7 @@ export default {
     },
     async deleteProject(id, index) {
       try {
-        await axios.delete(`http://127.0.0.1:8000/api/projects/${id}`);
+        await axios.delete(`/api/projects/${id}`);
         this.projects.splice(index, 1);
         alert("Project deleted successfully!");
       } catch (error) {

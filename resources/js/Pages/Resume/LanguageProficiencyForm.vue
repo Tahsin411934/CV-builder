@@ -146,7 +146,7 @@ export default {
       if (user && user.email) {
         try {
           const response = await axios.get(
-            `http://127.0.0.1:8000/api/language-proficiencybyemail/${user.email}`
+            `/api/language-proficiencybyemail/${user.email}`
           );
           const data = response.data?.data || [];
           this.languages = data.map((item) => ({
@@ -176,7 +176,7 @@ export default {
         }));
 
         const response = await axios.post(
-          "http://127.0.0.1:8000/api/language-proficiency",
+          "/api/language-proficiency",
           { languages: plainData },
           { headers: { "Content-Type": "application/json" } }
         );
@@ -201,7 +201,7 @@ export default {
     async deleteLanguage(id, index) {
       try {
         const response = await axios.delete(
-          `http://127.0.0.1:8000/api/language-proficiency/${id}`
+          `/api/language-proficiency/${id}`
         );
 
         if (response.status === 200) {
